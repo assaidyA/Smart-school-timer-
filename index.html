@@ -1,24 +1,135 @@
-<div class="main-wrapper">
-    <div class="box header-box">
-        <div class="header-container">
-            <div class="center-branding">
-                <div class="logo-row">
-                    <span class="big-clock" style="font-size: 80px;">🕒</span>
-                    <h1>NextPeriod</h1>
-                </div>
-                <p class="tagline">Smart Bell Schedule Countdown</p>
-                <p class="user-id">ASSAIDY</p>
-            </div>
-            <div class="bottom-left-controls">
-                <button class="control-btn" onclick="nextTheme()" title="Change Theme">🎨</button>
-                <button class="control-btn" onclick="toggleNightMode()" title="Night Mode">🌙</button>
-                <button class="control-btn" onclick="toggleLanguage()" title="Language">🌐</button>
-            </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NextPeriod | ASSAIDY</title>
+    <style>
+        :root {
+            --primary-bg: #050510;
+            --card-bg: #11112b;
+            --accent: #6366f1;
+            --white: #ffffff;
+            --text-dim: #888;
+        }
+
+        /* أنظمة الألوان (Themes) */
+        [data-theme="green"] { --accent: #22c55e; --primary-bg: #020a05; --card-bg: #0d1a10; }
+        [data-theme="pink"] { --accent: #ec4899; --primary-bg: #0a0206; --card-bg: #1a0d15; }
+        [data-theme="gold"] { --accent: #f59e0b; --primary-bg: #0a0702; --card-bg: #1a140d; }
+        [data-theme="cyan"] { --accent: #06b6d4; --primary-bg: #02090a; --card-bg: #0d181a; }
+
+        .light-mode {
+            --primary-bg: #f4f4f9;
+            --card-bg: #ffffff;
+            --white: #1a1a1a;
+            --text-dim: #666;
+        }
+
+        body { 
+            background: var(--primary-bg); 
+            color: var(--white); 
+            font-family: 'Inter', sans-serif; 
+            padding: 20px; 
+            margin: 0; 
+            transition: 0.4s ease; 
+        }
+
+        .box { 
+            background: var(--card-bg); 
+            border-radius: 30px; 
+            border: 1px solid rgba(255,255,255,0.05); 
+            margin-bottom: 25px;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .big-clock { font-size: 100px; display: block; margin-bottom: 10px; }
+        h1 { margin: 0; font-size: 32px; }
+        .user-id { color: var(--accent); font-weight: bold; font-size: 20px; letter-spacing: 5px; }
+
+        .control-btn { 
+            background: rgba(255,255,255,0.1); 
+            border: none; 
+            padding: 12px; 
+            border-radius: 12px; 
+            cursor: pointer; 
+            color: var(--white); 
+            font-size: 20px; 
+            margin: 0 5px;
+        }
+
+        #live-counter { font-size: 120px; font-weight: 900; margin: 10px 0; }
+
+        .progress-track { 
+            background: rgba(255,255,255,0.05); 
+            height: 12px; 
+            border-radius: 10px; 
+            width: 80%; 
+            margin: 25px auto; 
+            overflow: hidden; 
+        }
+
+        #fill-bar { 
+            height: 100%; 
+            background: var(--accent); 
+            width: 0%; 
+            transition: 0.4s; 
+            box-shadow: 0 0 15px var(--accent); 
+        }
+
+        /* تنسيق الجدول */
+        .period-card, .labels-grid { 
+            display: grid; 
+            grid-template-columns: 1fr 2.5fr 2fr 1fr 1.2fr; 
+            gap: 15px; 
+            align-items: center; 
+            text-align: left;
+        }
+
+        .period-card { 
+            background: var(--card-bg); 
+            border-radius: 15px; 
+            padding: 20px 25px; 
+            margin-bottom: 10px; 
+            border: 1px solid rgba(255,255,255,0.03); 
+        }
+
+        .labels-grid { 
+            padding: 0 25px 15px; 
+            color: var(--text-dim); 
+            font-weight: 800; 
+            font-size: 12px; 
+            text-transform: uppercase; 
+        }
+
+        .footer-info { 
+            text-align: center; 
+            margin-top: 50px; 
+            padding: 20px; 
+            font-size: 14px; 
+            color: var(--text-dim); 
+            border-top: 1px solid rgba(255,255,255,0.05); 
+        }
+    </style>
+</head>
+<body>
+
+    <div class="box">
+        <span class="big-clock">🕒</span>
+        <h1>NextPeriod</h1>
+        <p>Smart Bell Schedule Countdown</p>
+        <p class="user-id">ASSAIDY</p>
+        
+        <div style="margin-top: 20px;">
+            <button class="control-btn" onclick="nextTheme()">🎨</button>
+            <button class="control-btn" onclick="toggleNightMode()">🌙</button>
+            <button class="control-btn" onclick="toggleLanguage()">🌐</button>
         </div>
     </div>
 
-    <div class="box main-timer">
-        <p id="current-day-display"></p>
+    <div class="box">
+        <p id="current-day-display" style="color: var(--accent); font-weight: 900;"></p>
         <p id="active-p-title">LOADING...</p>
         <h2 id="live-counter">00:00</h2>
         <div class="progress-track"><div id="fill-bar"></div></div>
@@ -37,4 +148,96 @@
     <div class="footer-info">
         NextPeriod ©️ - Auto-updates every second. Github: ahmedassaidy7-hash
     </div>
-</div>
+
+    <script>
+        let currentLang = 'en';
+        let themeIndex = 0;
+        const themeNames = ['default', 'green', 'pink', 'gold', 'cyan'];
+
+        function nextTheme() {
+            themeIndex = (themeIndex + 1) % themeNames.length;
+            document.body.removeAttribute('data-theme');
+            if (themeNames[themeIndex] !== 'default') {
+                document.body.setAttribute('data-theme', themeNames[themeIndex]);
+            }
+        }
+
+        function toggleNightMode() {
+            document.body.classList.toggle('light-mode');
+        }
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'en' ? 'ar' : 'en';
+            const labels = {
+                en: { p: "Period", s: "Subject", t: "Time", d: "Dur", st: "Status" },
+                ar: { p: "الحصة", s: "المادة", t: "الوقت", d: "المدة", st: "الحالة" }
+            };
+            document.getElementById('lbl-p').innerText = labels[currentLang].p;
+            document.getElementById('lbl-s').innerText = labels[currentLang].s;
+            document.getElementById('lbl-t').innerText = labels[currentLang].t;
+            document.getElementById('lbl-d').innerText = labels[currentLang].d;
+            document.getElementById('lbl-st').innerText = labels[currentLang].st;
+            updateLive();
+        }
+
+        const schedule = [
+            { period: "0 pd", sub: "Community Meet 🤝", start: "07:15", end: "08:15", dur: "60m" },
+            { period: "Meet", sub: "Community Meeting 👥", start: "08:20", end: "08:30", dur: "10m" },
+            { period: "1st pd", sub: "US and the World 🌍", start: "08:30", end: "09:27", dur: "57m" },
+            { period: "2nd pd", sub: "AP Eng Lang 3 📚", start: "09:29", end: "10:26", dur: "57m" },
+            { period: "3rd pd", sub: "Algebra 2 Term 📐", start: "10:28", end: "11:25", dur: "57m" },
+            { period: "4th pd", sub: "Targeted Instru 🎯", start: "11:27", end: "12:24", dur: "57m" },
+            { period: "5th pd", sub: "Lunch 🍱", start: "12:26", end: "13:11", dur: "45m" },
+            { period: "6th pd", sub: "Earth and Space 🚀", start: "13:13", end: "14:10", dur: "57m" },
+            { period: "7th pd", sub: "Physical Educat ⚽", start: "14:12", end: "15:11", dur: "59m" }
+        ];
+
+        function updateLive() {
+            const now = new Date();
+            const day = now.getDay();
+            const curTotalMin = now.getHours() * 60 + now.getMinutes();
+            const curSec = now.getSeconds();
+            
+            document.getElementById('current-day-display').innerText = now.toLocaleDateString(currentLang, { weekday: 'long' });
+
+            let html = "";
+            let activeFound = false;
+
+            schedule.forEach((p) => {
+                const [sh, sm] = p.start.split(":").map(Number);
+                const [eh, em] = p.end.split(":").map(Number);
+                const sT = sh * 60 + sm;
+                const eT = eh * 60 + em;
+
+                if (curTotalMin >= sT && curTotalMin < eT) {
+                    activeFound = true;
+                    const remMin = eT - curTotalMin - 1;
+                    const remSec = 60 - curSec;
+                    document.getElementById('active-p-title').innerText = `${p.period.toUpperCase()}: ${p.sub.toUpperCase()}`;
+                    document.getElementById('live-counter').innerText = `${String(remMin).padStart(2, '0')}:${String(remSec === 60 ? 0 : remSec).padStart(2, '0')}`;
+                    document.getElementById('fill-bar').style.width = ((curTotalMin - sT) / (eT - sT) * 100) + "%";
+                    document.getElementById('p-time-info').innerText = `Ends at ${p.end}`;
+                }
+
+                let status = curTotalMin >= eT ? "Ended ✅" : (curTotalMin >= sT ? "Active 🟢" : "Wait ⏳");
+                html += `<div class="period-card" style="${status.includes('Active') ? 'border-left: 5px solid var(--accent); background: rgba(255,255,255,0.05);' : ''}">
+                    <span style="font-weight:bold; color: var(--accent);">${p.period}</span>
+                    <span>${p.sub}</span>
+                    <span style="color:var(--text-dim)">${p.start} - ${p.end}</span>
+                    <span>${p.dur}</span>
+                    <span style="color:${status.includes('Active') ? 'var(--accent)' : (status.includes('✅') ? '#4ade80' : 'var(--white)')}">${status}</span>
+                </div>`;
+            });
+
+            if (!activeFound) {
+                document.getElementById('live-counter').innerText = "00:00";
+                document.getElementById('active-p-title').innerText = "SCHOOL ENDED";
+            }
+            document.getElementById('schedule-list').innerHTML = html;
+        }
+
+        setInterval(updateLive, 1000);
+        updateLive();
+    </script>
+</body>
+</html>
