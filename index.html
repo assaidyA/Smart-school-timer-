@@ -1,4 +1,4 @@
-,<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
@@ -7,43 +7,35 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
 </head>
-<body class="dark-mode">
+<body class="theme-purple">
 
     <div class="top-bar">
-        <div class="theme-switch">
-            <button onclick="toggleTheme()" id="theme-btn">☀️ Light Mode</button>
+        <div class="logo-section">
+            <img src="logo.svg" alt="Clock" class="header-clock-icon">
+            <span class="brand-name">NextPeriod</span>
         </div>
-        <div class="lang-switcher">
-            <button onclick="setLanguage('en')">EN</button>
-            <button onclick="setLanguage('ar')">AR</button>
-            <button onclick="setLanguage('es')">ES</button>
+        
+        <div class="theme-controls">
+            <select id="theme-select" onchange="changeTheme(this.value)">
+                <option value="theme-purple">🟣 البنفسجي</option>
+                <option value="theme-blue">🔵 الأزرق</option>
+                <option value="theme-green">🟢 الأخضر</option>
+                <option value="theme-gold">🟠 الذهبي</option>
+            </select>
+            <button onclick="toggleMode()" id="mode-btn">🌙</button>
         </div>
     </div>
 
     <div class="main-layout">
         <aside class="side-panel">
             <div class="status-card">
-                <div class="analog-clock">
-                    <div class="face">
-                        <div class="brand">ASSAIDY</div>
-                        <div class="hour-hand" id="hour"></div>
-                        <div class="minute-hand" id="min"></div>
-                        <div class="second-hand" id="sec"></div>
-                        <div class="center-dot"></div>
-                        <div class="number n12">XII</div>
-                        <div class="number n3">III</div>
-                        <div class="number n6">VI</div>
-                        <div class="number n9">IX</div>
-                    </div>
-                </div>
-
+                <img src="logo.png" alt="OHS Logo" class="school-logo">
+                
                 <h2 id="day-display">---</h2>
                 <div id="active-period-label">الحصة الحالية</div>
                 <div id="active-period-name">--</div>
                 <div id="timer">00:00:00</div>
-                <div class="progress-container">
-                    <div id="progress-bar"></div>
-                </div>
+                <div class="progress-container"><div id="progress-bar"></div></div>
             </div>
         </aside>
 
@@ -51,7 +43,7 @@
             <div class="schedule-container">
                 <table>
                     <thead>
-                        <tr id="table-head">
+                        <tr>
                             <th>الحصة</th>
                             <th>الوقت</th>
                             <th>المدة</th>
@@ -63,8 +55,6 @@
             </div>
         </main>
     </div>
-
-    <audio id="bell-sound" src="bell.mp3" preload="auto"></audio>
     <script src="app.js"></script>
 </body>
 </html>
