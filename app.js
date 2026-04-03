@@ -1,86 +1,79 @@
-const schedules = {
-    regular: [
-        { name: "Period 0", start: "07:15", end: "08:15", duration: 60 },
-        { name: "Community Meeting", start: "08:20", end: "08:30", duration: 10 },
-        { name: "Period 1", start: "08:30", end: "09:27", duration: 57 },
-        { name: "Period 2", start: "09:29", end: "10:26", duration: 57 },
-        { name: "Period 3", start: "10:28", end: "11:25", duration: 57 },
-        { name: "Period 4", start: "11:27", end: "12:24", duration: 57 },
-        { name: "Period 5 (Lunch)", start: "12:26", end: "13:11", duration: 45 },
-        { name: "Period 6", start: "13:13", end: "14:10", duration: 57 },
-        { name: "Period 7", start: "14:12", end: "15:11", duration: 59 }
-    ],
-    wednesday: [
-        { name: "Period 0", start: "07:15", end: "08:15", duration: 60 },
-        { name: "Community Meeting", start: "08:20", end: "08:30", duration: 10 },
-        { name: "Period 1", start: "08:30", end: "09:16", duration: 46 },
-        { name: "Period 2", start: "09:18", end: "10:04", duration: 46 },
-        { name: "Period 3", start: "10:06", end: "10:52", duration: 46 },
-        { name: "Period 4 (Lunch)", start: "10:54", end: "11:39", duration: 45 },
-        { name: "Period 5", start: "11:41", end: "12:27", duration: 46 },
-        { name: "Period 6", start: "12:29", end: "13:15", duration: 46 },
-        { name: "Period 7", start: "13:17", end: "14:05", duration: 48 }
-    ]
-};
-
-function timeToMinutes(timeStr) {
-    const [hrs, mins] = timeStr.split(':').map(Number);
-    return hrs * 60 + mins;
-}
+const scheduleData = [
+    { name: "Period 0", start: "07:15", end: "08:15" },
+    { name: "Community Meeting", start: "08:20", end: "08:30" },
+    { name: "Period 1", start: "08:30", end: "09:27" },
+    { name: "Period 2", start: "09:29", end: "10:26" },
+    { name: "Period 3", start: "10:28", end: "11:25" },
+    { name: "Period 4", start: "11:27", end: "12:24" },
+    { name: "Period 5 (Lunch)", start: "12:26", end: "13:11" },
+    { name: "Period 6", start: "13:13", end: "14:10" },
+    { name: "Period 7", start: "14:12", end: "15:09" }
+];
 
 function update() {
     const now = new Date();
-    const day = now.getDay(); // 3 = Wednesday
-    const currentDayType = (day === 3) ? 'wednesday' : 'regular';
+    const currentTime = now.getHours() * 60 + now.getMinutes();
+    const currentSeconds = now.getSeconds();
     
-    document.getElementById('dayDisplay').textContent = (day === 3) ? "Wednesday Schedule Active" : "Regular Day Schedule Active";
+    let activeFound = false;
+    let html = "";
 
-    const currentMins = now.getHours() * 60 + now.getMinutes();
-    const currentSecs = now.getSeconds();
-    const schedule = schedules[currentDayType];
-    
-    let activeIdx = -1;
-    const body = document.getElementById('scheduleBody');
-    body.innerHTML = '';
+    scheduleData.forEach((p) => {
+        const [sH, sM] = p.start.split(":").map(Number);
+        const [eH, eM] = p.end.split(":").map(Number);
+        const startTotal = sH * 60 + sM;
+        const endTotal = eH * 60 + eM;
 
-    schedule.forEach((p, i) => {
-        const start = timeToMinutes(p.start);
-        const end = timeToMinutes(p.end);
         let status = "⏳ Wait";
         let rowClass = "";
 
-        if (currentMins >= start && currentMins < end) {
-            status = "🔵 Active";
+        if (currentTime >= startTotal && currentTime < endTotal) {
+            status = "🔔 Active";
             rowClass = "active-row";
-            activeIdx = i;
-        } else if (currentMins >= end) {
+            activeFound = true;
+            document.getElementById('active-period-name').innerText = p.name;
+            
+            const remainingMinutes = endTotal - currentTime - 1;
+            const remainingSeconds = 60 - currentSeconds;
+            document.getElementById('timer').innerText = 
+                `00:${String(remainingMinutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
+            
+            const duration = endTotal - startTotal;
+            const elapsed = currentTime - startTotal;
+            const percent = (elapsed / duration) * 100;
+            document.getElementById('progress-bar').style.width = percent + "%";
+
+        } else if (currentTime >= endTotal) {
             status = "✅ Ended";
+            rowClass = "ended-row";
         }
 
-        body.innerHTML += `<tr class="${rowClass}">
+        html += `<tr class="${rowClass}">
             <td>${p.name}</td>
-            <td>${p.start}-${p.end}</td>
-            <td>${p.duration}m</td>
+            <td>${p.start} - ${p.end}</td>
             <td>${status}</td>
         </tr>`;
     });
 
-    if (activeIdx !== -1) {
-        const p = schedule[activeIdx];
-        const start = timeToMinutes(p.start);
-        const end = timeToMinutes(p.end);
-        const remaining = end - (currentMins + currentSecs/60);
-        const prog = ((currentMins + currentSecs/60 - start) / (end - start)) * 100;
+    document.getElementById('schedule-body').innerHTML = html;
+
+    if (!activeFound) {
+        document.getElementById('active-period-name').innerText = "خارج وقت الدوام";
+        document.getElementById('progress-bar').style.width = "0%";
         
-        document.getElementById('currentPeriod').textContent = p.name;
-        document.getElementById('timer').textContent = `${Math.floor(remaining)}:${Math.floor((remaining%1)*60).toString().padStart(2,'0')}`;
-        document.getElementById('progress').style.width = prog + "%";
-        document.getElementById('status').textContent = "Time remaining in class";
-    } else {
-        document.getElementById('currentPeriod').textContent = "No Class Active";
-        document.getElementById('timer').textContent = "00:00";
-        document.getElementById('progress').style.width = "0%";
-        document.getElementById('status').textContent = "School is out or in break";
+        const firstHole = scheduleData[0].start.split(":");
+        const target = new Date();
+        target.setHours(parseInt(firstHole[0]), parseInt(firstHole[1]), 0);
+        
+        if (now > target) target.setDate(target.getDate() + 1);
+        
+        const diff = target - now;
+        const h = Math.floor(diff / 3600000);
+        const m = Math.floor((diff % 3600000) / 60000);
+        const s = Math.floor((diff % 60000) / 1000);
+        
+        document.getElementById('timer').innerText = 
+            `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
     }
 }
 
