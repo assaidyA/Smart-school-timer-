@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Next Period | ASSAIDY</title>
+    <title>NextPeriod | ASSAIDY</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
 </head>
 <body class="theme-purple">
+    <audio id="bell-sound" src="bell.mp3" preload="auto"></audio>
 
     <div class="top-bar">
         <div class="logo-section">
@@ -19,40 +20,35 @@
             <select id="theme-select" onchange="changeTheme(this.value)">
                 <option value="theme-purple">🟣 البنفسجي</option>
                 <option value="theme-blue">🔵 الأزرق</option>
-                <option value="theme-green">🟢 الأخضر</option>
                 <option value="theme-gold">🟠 الذهبي</option>
             </select>
             <button onclick="toggleMode()" id="mode-btn">🌙</button>
         </div>
     </div>
 
-    <div class="main-layout">
-        <aside class="side-panel">
-            <div class="status-card">
-                <img src="logo.png" alt="OHS Logo" class="school-logo">
-                <h2 id="day-display">---</h2>
-                <div id="active-period-label">الحصة الحالية</div>
-                <div id="active-period-name">--</div>
-                <div id="timer">00:00:00</div>
-                <div class="progress-container"><div id="progress-bar"></div></div>
-            </div>
-        </aside>
+    <div class="main-container">
+        <div class="card current-status">
+            <img src="logo.png" alt="School Logo" class="school-logo">
+            <h2 id="day-display">---</h2>
+            <p>الحصة الحالية</p>
+            <h1 id="active-period-name">--</h1>
+            <div id="timer">00:00:00</div>
+            <div class="progress-bar-container"><div id="progress-bar"></div></div>
+        </div>
 
-        <main class="content-panel">
-            <div class="schedule-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>الحصة</th>
-                            <th>الوقت</th>
-                            <th>المدة</th>
-                            <th>الحالة</th>
-                        </tr>
-                    </thead>
-                    <tbody id="schedule-body"></tbody>
-                </table>
-            </div>
-        </main>
+        <div class="card schedule-list">
+            <table>
+                <thead>
+                    <tr>
+                        <th>الحصة</th>
+                        <th>الوقت</th>
+                        <th>المدة</th>
+                        <th>الحالة</th>
+                    </tr>
+                </thead>
+                <tbody id="schedule-body"></tbody>
+            </table>
+        </div>
     </div>
     <script src="app.js"></script>
 </body>
