@@ -1,77 +1,40 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NextPeriod | ASSAIDY</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
-</head>
-<body class="theme-purple">
-    <audio id="bell-sound" src="bell.mp3" preload="auto"></audio>
-
-    <div class="top-bar">
-        <div class="logo-section">
-            <img src="logo.svg" alt="Clock" class="header-clock-icon">
-            <span class="brand-name">NextPeriod</span>
-        </div>
-        
-        <div class="controls-group">
-            <div class="dropdown">
-                <button class="dropbtn">🌐 <span id="lang-text">Language</span></button>
-                <div class="dropdown-content">
-                    <a href="#" onclick="changeLang('ar')">العربية</a>
-                    <a href="#" onclick="changeLang('en')">English</a>
-                    <a href="#" onclick="changeLang('es')">Español</a>
+<div class="main-wrapper">
+    <div class="box header-box">
+        <div class="header-container">
+            <div class="center-branding">
+                <div class="logo-row">
+                    <span class="big-clock" style="font-size: 80px;">🕒</span>
+                    <h1>NextPeriod</h1>
                 </div>
+                <p class="tagline">Smart Bell Schedule Countdown</p>
+                <p class="user-id">ASSAIDY</p>
             </div>
-            <select id="theme-select" onchange="changeTheme(this.value)">
-                <option value="theme-purple">🟣 بنفسجي</option>
-                <option value="theme-blue">🔵 أزرق</option>
-                <option value="theme-gold">🟠 ذهبي</option>
-            </select>
-            <button onclick="toggleMode()" id="mode-btn">🌙</button>
+            <div class="bottom-left-controls">
+                <button class="control-btn" onclick="nextTheme()" title="Change Theme">🎨</button>
+                <button class="control-btn" onclick="toggleNightMode()" title="Night Mode">🌙</button>
+                <button class="control-btn" onclick="toggleLanguage()" title="Language">🌐</button>
+            </div>
         </div>
     </div>
 
-    <div class="main-layout">
-        <aside class="side-panel">
-            <div class="status-card">
-                <div class="roman-clock-container">
-                    <div class="roman-clock">
-                        <div class="dot"></div>
-                        <div class="hand hour-hand"></div>
-                        <div class="hand min-hand"></div>
-                        <div class="hand sec-hand"></div>
-                        <span class="num n12">XII</span>
-                        <span class="num n3">III</span>
-                        <span class="num n6">VI</span>
-                        <span class="num n9">IX</span>
-                    </div>
-                </div>
-                <h2 id="day-display">---</h2>
-                <div id="status-label">الحصة الحالية</div>
-                <h1 id="active-period-name">--</h1>
-                <div id="timer">00:00:00</div>
-                <div class="progress-container"><div id="progress-bar"></div></div>
-            </div>
-        </aside>
-
-        <main class="content-panel">
-            <div class="schedule-box">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>الحصة</th>
-                            <th>الوقت</th>
-                            <th>الحالة</th>
-                        </tr>
-                    </thead>
-                    <tbody id="schedule-body"></tbody>
-                </table>
-            </div>
-        </main>
+    <div class="box main-timer">
+        <p id="current-day-display"></p>
+        <p id="active-p-title">LOADING...</p>
+        <h2 id="live-counter">00:00</h2>
+        <div class="progress-track"><div id="fill-bar"></div></div>
+        <p id="p-time-info">--:--</p>
     </div>
-    <script src="app.js"></script>
-</body>
-</html>
+
+    <div class="labels-grid">
+        <span id="lbl-p">Period</span>
+        <span id="lbl-s">Subject</span>
+        <span id="lbl-t">Time</span>
+        <span id="lbl-d">Dur</span>
+        <span id="lbl-st">Status</span>
+    </div>
+    <div id="schedule-list"></div>
+
+    <div class="footer-info">
+        NextPeriod ©️ - Auto-updates every second. Github: ahmedassaidy7-hash
+    </div>
+</div>
