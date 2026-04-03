@@ -16,11 +16,19 @@
             <span class="brand-name">NextPeriod</span>
         </div>
         
-        <div class="theme-controls">
+        <div class="controls-group">
+            <div class="dropdown">
+                <button class="dropbtn">🌐 اللغة</button>
+                <div class="dropdown-content">
+                    <a href="#" onclick="changeLang('ar')">العربية</a>
+                    <a href="#" onclick="changeLang('en')">English</a>
+                    <a href="#" onclick="changeLang('es')">Español</a>
+                </div>
+            </div>
             <select id="theme-select" onchange="changeTheme(this.value)">
-                <option value="theme-purple">🟣 البنفسجي</option>
-                <option value="theme-blue">🔵 الأزرق</option>
-                <option value="theme-gold">🟠 الذهبي</option>
+                <option value="theme-purple">🟣 بنفسجي</option>
+                <option value="theme-blue">🔵 أزرق</option>
+                <option value="theme-gold">🟠 ذهبي</option>
             </select>
             <button onclick="toggleMode()" id="mode-btn">🌙</button>
         </div>
@@ -28,9 +36,19 @@
 
     <div class="main-container">
         <div class="card current-status">
-            <img src="logo.png" alt="School Logo" class="school-logo">
+            <div class="roman-clock">
+                <div class="dot"></div>
+                <div class="hand hour-hand"></div>
+                <div class="hand min-hand"></div>
+                <div class="hand sec-hand"></div>
+                <span class="number num12">XII</span>
+                <span class="number num3">III</span>
+                <span class="number num6">VI</span>
+                <span class="number num9">IX</span>
+            </div>
+
             <h2 id="day-display">---</h2>
-            <p>الحصة الحالية</p>
+            <div id="period-status-label">الحصة الحالية</div>
             <h1 id="active-period-name">--</h1>
             <div id="timer">00:00:00</div>
             <div class="progress-bar-container"><div id="progress-bar"></div></div>
@@ -38,14 +56,6 @@
 
         <div class="card schedule-list">
             <table>
-                <thead>
-                    <tr>
-                        <th>الحصة</th>
-                        <th>الوقت</th>
-                        <th>المدة</th>
-                        <th>الحالة</th>
-                    </tr>
-                </thead>
                 <tbody id="schedule-body"></tbody>
             </table>
         </div>
