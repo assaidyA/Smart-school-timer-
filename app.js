@@ -1,51 +1,58 @@
 const weekSchedule = {
     "Monday": [
-        { name: "Community Meet", start: "07:15", end: "08:15" },
-        { name: "US and the World", start: "08:20", end: "09:27" },
-        { name: "AP Eng Lang 3", start: "09:29", end: "10:26" },
-        { name: "Algebra 2 Term", start: "10:28", end: "11:25" },
-        { name: "Lunch", start: "11:27", end: "12:24" },
-        { name: "Earth and Space", start: "12:26", end: "13:11" },
-        { name: "Targeted Instruct", start: "13:13", end: "14:10" },
-        { name: "Physical Education", start: "14:12", end: "15:11" }
+        { name: "0 pd", start: "07:15", end: "08:15" },
+        { name: "Community Meeting", start: "08:20", end: "08:30" },
+        { name: "1st pd", start: "08:30", end: "09:27" },
+        { name: "2nd pd", start: "09:29", end: "10:26" },
+        { name: "3rd pd", start: "10:28", end: "11:25" },
+        { name: "4th pd", start: "11:27", end: "12:24" },
+        { name: "5th pd (Lunch)", start: "12:26", end: "13:11" },
+        { name: "6th pd", start: "13:13", end: "14:10" },
+        { name: "7th pd", start: "14:12", end: "15:11" }
     ],
     "Tuesday": [
-        { name: "Community Meet", start: "07:15", end: "08:15" },
-        { name: "Algebra 2 Term", start: "08:20", end: "09:27" },
-        { name: "Advisory 11", start: "09:29", end: "10:26" },
-        { name: "US and the World", start: "10:28", end: "11:25" },
-        { name: "Lunch", start: "11:27", end: "12:24" },
-        { name: "AP Eng Lang 3", start: "12:26", end: "13:11" },
-        { name: "Earth and Space", start: "13:13", end: "14:10" }
+        { name: "0 pd", start: "07:15", end: "08:15" },
+        { name: "Community Meeting", start: "08:20", end: "08:30" },
+        { name: "1st pd", start: "08:30", end: "09:27" },
+        { name: "2nd pd", start: "09:29", end: "10:26" },
+        { name: "3rd pd", start: "10:28", end: "11:25" },
+        { name: "4th pd", start: "11:27", end: "12:24" },
+        { name: "5th pd (Lunch)", start: "12:26", end: "13:11" },
+        { name: "6th pd", start: "13:13", end: "14:10" },
+        { name: "7th pd", start: "14:12", end: "15:11" }
     ],
-    "Wednesday": [ // الجدول القصير للأربعاء
-        { name: "Community Meet", start: "07:15", end: "08:15" },
-        { name: "AP Eng Lang 3", start: "08:30", end: "09:16" },
-        { name: "US and the World", start: "09:18", end: "10:04" },
-        { name: "Junior Prep Seminar", start: "10:06", end: "10:52" },
-        { name: "Lunch", start: "10:54", end: "11:39" },
-        { name: "Earth and Space", start: "11:41", end: "12:27" },
-        { name: "Targeted Instruct", start: "12:29", end: "13:15" },
-        { name: "Algebra 2 Term", start: "13:17", end: "14:05" }
+    "Wednesday": [
+        { name: "0 pd", start: "07:15", end: "08:15" },
+        { name: "Community Meeting", start: "08:20", end: "08:30" },
+        { name: "1st pd", start: "08:30", end: "09:16" },
+        { name: "2nd pd", start: "09:18", end: "10:04" },
+        { name: "3rd pd", start: "10:06", end: "10:52" },
+        { name: "4th pd (Lunch)", start: "10:54", end: "11:39" },
+        { name: "5th pd", start: "11:41", end: "12:27" },
+        { name: "6th pd", start: "12:29", end: "13:15" },
+        { name: "7th pd", start: "13:17", end: "14:05" }
     ],
     "Thursday": [
-        { name: "Community Meet", start: "07:15", end: "08:15" },
-        { name: "Targeted Instruct", start: "08:20", end: "09:27" },
-        { name: "Algebra 2 Term", start: "09:29", end: "10:26" },
-        { name: "AP Eng Lang 3", start: "10:28", end: "11:25" },
-        { name: "US and the World", start: "11:27", end: "12:24" },
-        { name: "Lunch", start: "12:26", end: "13:11" },
-        { name: "Earth and Space", start: "13:13", end: "14:10" },
-        { name: "Physical Education", start: "14:12", end: "15:11" }
+        { name: "0 pd", start: "07:15", end: "08:15" },
+        { name: "Community Meeting", start: "08:20", end: "08:30" },
+        { name: "1st pd", start: "08:30", end: "09:27" },
+        { name: "2nd pd", start: "09:29", end: "10:26" },
+        { name: "3rd pd", start: "10:28", end: "11:25" },
+        { name: "4th pd", start: "11:27", end: "12:24" },
+        { name: "5th pd (Lunch)", start: "12:26", end: "13:11" },
+        { name: "6th pd", start: "13:13", end: "14:10" },
+        { name: "7th pd", start: "14:12", end: "15:11" }
     ],
     "Friday": [
-        { name: "Community Meet", start: "07:15", end: "08:15" },
-        { name: "US and the World", start: "08:20", end: "09:27" },
-        { name: "Algebra 2 Term", start: "09:29", end: "10:26" },
-        { name: "Targeted Instruct", start: "10:28", end: "11:25" },
-        { name: "Advisory 11", start: "11:27", end: "12:24" },
-        { name: "Lunch", start: "12:26", end: "13:11" },
-        { name: "AP Eng Lang 3", start: "13:13", end: "14:10" }
+        { name: "0 pd", start: "07:15", end: "08:15" },
+        { name: "Community Meeting", start: "08:20", end: "08:30" },
+        { name: "1st pd", start: "08:30", end: "09:27" },
+        { name: "2nd pd", start: "09:29", end: "10:26" },
+        { name: "3rd pd", start: "10:28", end: "11:25" },
+        { name: "4th pd", start: "11:27", end: "12:24" },
+        { name: "5th pd (Lunch)", start: "12:26", end: "13:11" },
+        { name: "6th pd", start: "13:13", end: "14:10" },
+        { name: "7th pd", start: "14:12", end: "15:11" }
     ]
 };
 
@@ -56,7 +63,6 @@ function update() {
     const now = new Date();
     const dayName = now.toLocaleDateString('en-US', { weekday: 'long' });
     const currentTime = now.getHours() * 60 + now.getMinutes();
-    
     document.getElementById('day-display').innerText = now.toLocaleDateString('ar-SA', {weekday:'long'});
 
     const todayData = weekSchedule[dayName] || [];
