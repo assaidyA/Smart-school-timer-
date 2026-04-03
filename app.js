@@ -47,26 +47,33 @@ const weekSchedule = {
 };
 
 const translations = {
-    en: { h_period: "Period", h_time: "Time", h_dur: "Dur", h_stat: "Status", weekend: "Happy Weekend! 🌴", current: "Current Period", over: "Day Ended" },
-    ar: { h_period: "الحصة", h_time: "الوقت", h_dur: "المدة", h_stat: "الحالة", weekend: "عطلة سعيدة! 🌴", current: "الحصة الحالية", over: "انتهى اليوم" },
-    es: { h_period: "Periodo", h_time: "Hora", h_dur: "Dur", h_stat: "Estado", weekend: "¡Buen Finde! 🌴", current: "Periodo Actual", over: "Día Terminado" }
+    en: { h_p: "Period", h_t: "Time", h_d: "Dur", h_s: "Status", week: "Happy Weekend! 🌴", cur: "Now", over: "Day Ended" },
+    ar: { h_p: "الحصة", h_t: "الوقت", h_d: "المدة", h_s: "الحالة", week: "عطلة سعيدة! 🌴", cur: "الحصة الحالية", over: "انتهى اليوم" },
+    es: { h_p: "Periodo", h_t: "Hora", h_d: "Dur", h_s: "Estado", week: "¡Buen Finde! 🌴", cur: "Actual", over: "Terminado" }
 };
 
 let currentLang = 'ar';
 
 function toggleTheme() {
     document.body.classList.toggle('light-mode');
-    const isLight = document.body.classList.contains('light-mode');
-    document.getElementById('theme-btn').innerText = isLight ? "🌙 Dark Mode" : "☀️ Light Mode";
+    document.getElementById('theme-btn').innerText = document.body.classList.contains('light-mode') ? "🌙 Dark Mode" : "☀️ Light Mode";
 }
 
 function setLanguage(lang) {
     currentLang = lang;
     document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
     const t = translations[lang];
-    document.getElementById('table-head').innerHTML = `<th>${t.h_period}</th><th>${t.h_time}</th><th>${t.h_dur}</th><th>${t.h_stat}</th>`;
-    document.getElementById('active-period-label').innerText = t.current;
+    document.getElementById('table-head').innerHTML = `<th>${t.h_p}</th><th>${t.h_t}</th><th>${t.h_d}</th><th>${t.h_s}</th>`;
+    document.getElementById('active-period-label').innerText = t.cur;
     update();
+}
+
+function updateAnalogClock() {
+    const now = new Date();
+    const s = now.getSeconds(), m = now.getMinutes(), h = now.getHours();
+    document.getElementById('sec').style.transform = `translateX(-50%) rotate(${(s/60)*360}deg)`;
+    document.getElementById('min').style.transform = `translateX(-50%) rotate(${(m/60)*360+(s/60)*6}deg)`;
+    document.getElementById('hour').style.transform = `translateX(-50%) rotate(${(h%12/12)*360+(m/60)*30}deg)`;
 }
 
 function update() {
@@ -80,20 +87,16 @@ function update() {
     if (dayName === "Saturday" || dayName === "Sunday") {
         document.getElementById('active-period-name').innerText = "🌴";
         document.getElementById('timer').innerText = "OFF";
-        document.getElementById('schedule-body').innerHTML = `<tr><td colspan="4" style="text-align:center; padding:50px; font-size:1.5rem;">${t.weekend}</td></tr>`;
+        document.getElementById('schedule-body').innerHTML = `<tr><td colspan="4" style="text-align:center; padding:40px;">${t.week}</td></tr>`;
         return;
     }
 
     const todayData = weekSchedule[dayName] || [];
-    let html = "";
-    let activeFound = false;
+    let html = "", activeFound = false;
 
     todayData.forEach(p => {
-        const [sH, sM] = p.start.split(":").map(Number);
-        const [eH, eM] = p.end.split(":").map(Number);
-        const startT = sH * 60 + sM;
-        const endT = eH * 60 + eM;
-
+        const [sH, sM] = p.start.split(":").map(Number), [eH, eM] = p.end.split(":").map(Number);
+        const startT = sH * 60 + sM, endT = eH * 60 + eM;
         let status = "⏳", rowClass = "";
 
         if (currentTime >= startT && currentTime < endT) {
@@ -102,22 +105,17 @@ function update() {
             const remMin = endT - currentTime - 1;
             document.getElementById('timer').innerText = `00:${String(remMin).padStart(2,'0')}:${String(60-now.getSeconds()).padStart(2,'0')}`;
             document.getElementById('progress-bar').style.width = ((currentTime - startT) / (endT - startT) * 100) + "%";
-        } else if (currentTime >= endT) {
-            status = "✅ Ended";
-        } else {
-            status = "⏳ Wait";
-        }
-
+        } else if (currentTime >= endT) { status = "✅ Ended"; }
         html += `<tr class="${rowClass}"><td>${p.name}</td><td>${p.start}-${p.end}</td><td>${endT-startT}m</td><td>${status}</td></tr>`;
     });
 
     document.getElementById('schedule-body').innerHTML = html;
-    if (!activeFound) {
-        document.getElementById('active-period-name').innerText = t.over;
-        document.getElementById('timer').innerText = "00:00:00";
+    if (!activeFound) { 
+        document.getElementById('active-period-name').innerText = t.over; 
+        document.getElementById('timer').innerText = "00:00:00"; 
         document.getElementById('progress-bar').style.width = "0%";
     }
 }
 
-setInterval(update, 1000);
+setInterval(() => { update(); updateAnalogClock(); }, 1000);
 setLanguage('ar');
