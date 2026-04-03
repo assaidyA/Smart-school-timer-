@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ahmed's Smart Schedule</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="noise"></div>
+    <div class="container">
+        <header>
+            <h1>Ahmed's Schedule</h1>
+            <p class="tagline" id="dayDisplay">Detecting today's schedule...</p>
+            <p class="dev-credit">ahmedassaidy12@gmail.com</p>
+        </header>
+
+        <div class="current-info">
+            <div class="current-period" id="currentPeriod">Loading...</div>
+            <div class="timer" id="timer">00:00:00</div>
+            <div class="progress-bar">
+                <div class="progress" id="progress"></div>
+            </div>
+            <div id="status" class="status-text">Checking time...</div>
+        </div>
+
+        <table class="schedule-table">
+            <thead>
+                <tr>
+                    <th>Period</th>
+                    <th>Time</th>
+                    <th>Duration</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="scheduleBody"></tbody>
+        </table>
+
+        <footer>
+            Ahmed Assaidy &copy; 2026 — Smart Bell System
+        </footer>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
