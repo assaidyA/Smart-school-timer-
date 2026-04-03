@@ -2,15 +2,11 @@ let currentLang = 'en';
 let themeIndex = 0;
 const themeNames = ['default', 'green', 'pink', 'gold', 'cyan'];
 
-// وظيفة تغيير ألوان الصفحة بالكامل
 function nextTheme() {
     themeIndex = (themeIndex + 1) % themeNames.length;
-    const body = document.body;
-    
-    // إزالة الثيمات السابقة وتطبيق الثيم الجديد
-    themeNames.forEach(t => body.removeAttribute(`data-theme`));
+    document.body.removeAttribute('data-theme');
     if (themeNames[themeIndex] !== 'default') {
-        body.setAttribute('data-theme', themeNames[themeIndex]);
+        document.body.setAttribute('data-theme', themeNames[themeIndex]);
     }
 }
 
@@ -32,7 +28,6 @@ function toggleLanguage() {
     updateLive();
 }
 
-// البيانات المستخرجة من جدولك
 const schedule = [
     { period: "0 pd", sub: "Community Meet 🤝", start: "07:15", end: "08:15", dur: "60m" },
     { period: "Meet", sub: "Community Meeting 👥", start: "08:20", end: "08:30", dur: "10m" },
@@ -52,12 +47,6 @@ function updateLive() {
     const curSec = now.getSeconds();
     
     document.getElementById('current-day-display').innerText = now.toLocaleDateString(currentLang, { weekday: 'long' });
-
-    if (day === 0 || day === 6) {
-        document.getElementById('active-p-title').innerText = "WEEKEND";
-        document.getElementById('live-counter').innerText = currentLang === 'en' ? "OFF" : "إجازة";
-        return;
-    }
 
     let html = "";
     let activeFound = false;
@@ -79,9 +68,9 @@ function updateLive() {
         }
 
         let status = curTotalMin >= eT ? "Ended ✅" : (curTotalMin >= sT ? "Active 🟢" : "Wait ⏳");
-        html += `<div class="period-card" style="${status.includes('Active') ? 'border-left: 5px solid var(--accent); background: rgba(99,102,241,0.08);' : ''}">
+        html += `<div class="period-card" style="${status.includes('Active') ? 'border-left: 5px solid var(--accent); background: rgba(255,255,255,0.05);' : ''}">
             <span style="font-weight:bold; color: var(--accent);">${p.period}</span>
-            <span style="font-weight:500;">${p.sub}</span>
+            <span>${p.sub}</span>
             <span style="color:var(--text-dim)">${p.start} - ${p.end}</span>
             <span>${p.dur}</span>
             <span style="color:${status.includes('Active') ? 'var(--accent)' : (status.includes('✅') ? '#4ade80' : 'var(--white)')}">${status}</span>
@@ -90,7 +79,7 @@ function updateLive() {
 
     if (!activeFound) {
         document.getElementById('live-counter').innerText = "00:00";
-        document.getElementById('active-p-title').innerText = currentLang === 'en' ? "SCHOOL ENDED" : "انتهى الدوام";
+        document.getElementById('active-p-title').innerText = "SCHOOL ENDED";
     }
     document.getElementById('schedule-list').innerHTML = html;
 }
