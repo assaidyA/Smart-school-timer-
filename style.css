@@ -1,26 +1,42 @@
+:root { --accent: #7b2cff; --bg: #0b0b1a; --card: rgba(23, 23, 45, 0.9); --text: #ffffff; }
+.theme-blue { --accent: #2563eb; } .theme-gold { --accent: #f59e0b; }
+.light-mode { --bg: #f8fafc; --card: #ffffff; --text: #1e293b; }
+
+body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); margin: 0; transition: 0.3s; overflow-x: hidden; }
+.top-bar { display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; background: rgba(0,0,0,0.2); }
+.logo-section { display: flex; align-items: center; gap: 10px; }
+.header-clock-icon { width: 30px; height: 30px; filter: drop-shadow(0 0 5px var(--accent)); }
+.brand-name { font-size: 1.4rem; font-weight: 800; }
+
+.main-layout { display: flex; gap: 20px; padding: 20px 5%; flex-wrap: wrap; }
+.side-panel { flex: 1; min-width: 300px; }
+.content-panel { flex: 2; min-width: 400px; }
+
 /* الساعة الرومانية */
-.roman-clock {
-    width: 150px; height: 150px; border: 4px solid var(--accent);
-    border-radius: 50%; margin: 0 auto 20px; position: relative; background: rgba(255,255,255,0.05);
-}
-.roman-clock .number { position: absolute; font-weight: bold; color: var(--text); font-size: 1.2rem; }
-.num12 { top: 5px; left: 50%; transform: translateX(-50%); }
-.num3 { right: 10px; top: 50%; transform: translateY(-50%); }
-.num6 { bottom: 5px; left: 50%; transform: translateX(-50%); }
-.num9 { left: 10px; top: 50%; transform: translateY(-50%); }
+.roman-clock { width: 140px; height: 140px; border: 3px solid var(--accent); border-radius: 50%; position: relative; margin: 0 auto 20px; background: rgba(255,255,255,0.03); }
+.num { position: absolute; font-weight: bold; font-size: 1rem; color: var(--text); }
+.n12 { top: 5px; left: 50%; transform: translateX(-50%); }
+.n3 { right: 8px; top: 50%; transform: translateY(-50%); }
+.n6 { bottom: 5px; left: 50%; transform: translateX(-50%); }
+.n9 { left: 8px; top: 50%; transform: translateY(-50%); }
+.hand { position: absolute; bottom: 50%; left: 50%; transform-origin: bottom; background: var(--accent); border-radius: 4px; transform: translateX(-50%); }
+.hour-hand { width: 4px; height: 30px; }
+.min-hand { width: 3px; height: 45px; }
+.sec-hand { width: 1px; height: 55px; background: #ff4757; }
+.dot { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 8px; height: 8px; background: var(--text); border-radius: 50%; z-index: 5; }
 
-.hand { position: absolute; bottom: 50%; left: 50%; transform-origin: bottom; background: var(--accent); border-radius: 5px; }
-.hour-hand { width: 4px; height: 35px; z-index: 3; }
-.min-hand { width: 3px; height: 50px; z-index: 2; }
-.sec-hand { width: 1px; height: 60px; background: #ff4757; z-index: 1; }
-.dot { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 10px; height: 10px; background: var(--text); border-radius: 50%; z-index: 10; }
+.status-card { background: var(--card); padding: 30px; border-radius: 25px; border: 1px solid rgba(255,255,255,0.1); text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+#timer { font-family: 'Space Mono', monospace; font-size: 3rem; color: var(--accent); margin: 15px 0; }
 
-/* الاستراحة */
-.break-row { background: rgba(255, 255, 255, 0.05) !important; font-style: italic; opacity: 0.8; }
+/* الجدول */
+.schedule-box { background: var(--card); border-radius: 25px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); }
+table { width: 100%; border-collapse: collapse; }
+th, td { padding: 18px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05); }
+.active-row { background: rgba(123, 44, 255, 0.15) !important; color: var(--accent); font-weight: bold; border-right: 4px solid var(--accent); }
 
-/* قائمة اللغات */
+/* زر اللغات */
 .dropdown { position: relative; display: inline-block; }
-.dropbtn { background: var(--card); color: var(--text); padding: 8px 15px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); cursor: pointer; }
-.dropdown-content { display: none; position: absolute; background: var(--card); min-width: 100px; box-shadow: 0 8px 16px rgba(0,0,0,0.2); border-radius: 8px; z-index: 100; }
-.dropdown-content a { color: var(--text); padding: 12px 16px; text-decoration: none; display: block; font-size: 0.9rem; }
+.dropbtn { background: var(--card); color: var(--text); padding: 8px 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); cursor: pointer; }
+.dropdown-content { display: none; position: absolute; background: var(--card); min-width: 120px; border-radius: 8px; z-index: 10; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+.dropdown-content a { color: var(--text); padding: 10px; text-decoration: none; display: block; text-align: right; }
 .dropdown:hover .dropdown-content { display: block; }
