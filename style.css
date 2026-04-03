@@ -19,20 +19,30 @@
     --text-dim: #666;
 }
 
-body { background: var(--primary-bg); color: var(--white); font-family: sans-serif; padding: 20px; transition: 0.4s; margin: 0; }
+body { background: var(--primary-bg); color: var(--white); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 20px; transition: 0.4s; margin: 0; }
 .box { background: var(--card-bg); border-radius: 30px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 25px; padding: 40px; text-align: center; }
 .big-clock { font-size: 80px; display: block; margin-bottom: 10px; }
 .user-id { color: var(--accent); font-weight: bold; font-size: 20px; letter-spacing: 5px; margin-top: 10px; }
-.control-btn { background: rgba(255,255,255,0.1); border: none; padding: 12px; border-radius: 12px; cursor: pointer; color: var(--white); font-size: 20px; margin: 0 5px; }
+.control-btn { background: rgba(255,255,255,0.1); border: none; padding: 12px; border-radius: 12px; cursor: pointer; color: var(--white); font-size: 20px; margin: 0 5px; transition: 0.3s; }
+.control-btn:hover { background: var(--accent); }
 
 #live-counter { font-size: 100px; font-weight: 900; margin: 10px 0; }
 .progress-track { background: rgba(255,255,255,0.05); height: 12px; border-radius: 10px; width: 80%; margin: 25px auto; overflow: hidden; }
 #fill-bar { height: 100%; background: var(--accent); width: 0%; transition: 0.4s; }
 
-.period-card, .labels-grid { display: grid; grid-template-columns: 1fr 2.5fr 2fr 1fr 1.2fr; gap: 15px; align-items: center; text-align: left; }
-.period-card { background: var(--card-bg); border-radius: 15px; padding: 20px 25px; margin-bottom: 10px; border: 1px solid rgba(255,255,255,0.03); }
-.labels-grid { padding: 0 25px 15px; color: var(--text-dim); font-size: 12px; font-weight: 800; text-transform: uppercase; }
+/* توزيع الأعمدة الستة */
+.period-card, .labels-grid { 
+    display: grid; 
+    grid-template-columns: 0.7fr 1.8fr 2.2fr 1.8fr 0.7fr 1fr; 
+    gap: 15px; 
+    align-items: center; 
+    text-align: left; 
+}
 
+.period-card { background: var(--card-bg); border-radius: 15px; padding: 20px 25px; margin-bottom: 10px; border: 1px solid rgba(255,255,255,0.03); transition: 0.3s; }
+.labels-grid { padding: 0 25px 15px; color: var(--text-dim); font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
+
+.teacher-info { color: var(--accent); font-size: 0.9em; font-weight: 500; }
 .my-link { color: var(--accent); text-decoration: none; font-weight: bold; transition: 0.3s; }
 .my-link:hover { text-decoration: underline; opacity: 0.8; }
-.footer-info { text-align: center; margin-top: 40px; padding: 20px; font-size: 14px; color: var(--text-dim); border-top: 1px solid rgba(255,255,255,0.05); }
+.footer-info { text-align: center; margin-top: 40px; padding: 20px; font-size: 13px; color: var(--text-dim); border-top: 1px solid rgba(255,255,255,0.05); }
