@@ -30,7 +30,6 @@
         <aside class="side-panel">
             <div class="status-card">
                 <img src="logo.png" alt="OHS Logo" class="school-logo">
-                
                 <h2 id="day-display">---</h2>
                 <div id="active-period-label">الحصة الحالية</div>
                 <div id="active-period-name">--</div>
