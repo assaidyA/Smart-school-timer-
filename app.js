@@ -1,101 +1,99 @@
-const schedule = {
-    "Monday": [
-        { name: "pd 0 (Community) 👥", start: "07:15", end: "08:15" },
-        { name: "Community Meeting 🤝", start: "08:20", end: "08:30" },
-        { name: "1st pd (Math) 📐", start: "08:30", end: "09:27" },
-        { name: "2nd pd (English) 📚", start: "09:29", end: "10:26" },
-        { name: "3rd pd (Science) 🧪", start: "10:28", end: "11:25" },
-        { name: "4th pd (History) 🌍", start: "11:27", end: "12:24" },
-        { name: "5th pd (Lunch) 🍱", start: "12:26", end: "13:11" },
-        { name: "6th pd (Art) 🎨", start: "13:13", end: "14:10" },
-        { name: "7th pd (PE) ⚽", start: "14:12", end: "15:11" }
-    ],
-    "Wednesday": [
-        { name: "0 pd 👥", start: "07:15", end: "08:15" },
-        { name: "1st pd 📚", start: "08:30", end: "09:16" },
-        { name: "2nd pd 📐", start: "09:18", end: "10:04" },
-        { name: "3rd pd 🧪", start: "10:06", end: "10:52" },
-        { name: "Lunch 🍱", start: "10:54", end: "11:39" },
-        { name: "5th pd 🌍", start: "11:41", end: "12:27" },
-        { name: "6th pd 🎨", start: "12:29", end: "13:15" },
-        { name: "7th pd ⚽", start: "13:17", end: "14:05" }
-    ]
-    // أضف الثلاثاء والخميس والجمعة بنفس النمط...
-};
+let currentLang = 'en';
+let themeIndex = 0;
+const themeNames = ['default', 'green', 'pink', 'gold', 'cyan'];
 
-let bellPlayed = false;
-
-function update() {
-    const now = new Date();
-    // تحريك الساعة الرومانية
-    const s = now.getSeconds() * 6, m = now.getMinutes() * 6, h = (now.getHours() % 12) * 30 + m / 12;
-    document.querySelector('.sec-hand').style.transform = `translateX(-50%) rotate(${s}deg)`;
-    document.querySelector('.min-hand').style.transform = `translateX(-50%) rotate(${m}deg)`;
-    document.querySelector('.hour-hand').style.transform = `translateX(-50%) rotate(${h}deg)`;
-
-    const day = now.toLocaleDateString('en-US', { weekday: 'long' });
-    const currentM = now.getHours() * 60 + now.getMinutes();
-    const today = schedule[day] || [];
+// وظيفة تغيير ألوان الصفحة بالكامل
+function nextTheme() {
+    themeIndex = (themeIndex + 1) % themeNames.length;
+    const body = document.body;
     
-    document.getElementById('day-display').innerText = now.toLocaleDateString('ar-SA', {weekday:'long'});
-    let html = "", activeFound = false;
-
-    for (let i = 0; i < today.length; i++) {
-        const p = today[i];
-        const [sH, sM] = p.start.split(":").map(Number);
-        const [eH, eM] = p.end.split(":").map(Number);
-        const sT = sH * 60 + sM, eT = eH * 60 + eM;
-
-        // التحقق من "الاستراحة" (Break)
-        if (i > 0) {
-            const prevE = today[i-1].end.split(":").map(Number);
-            const prevET = prevE[0] * 60 + prevE[1];
-            if (currentM >= prevET && currentM < sT) {
-                activeFound = true;
-                document.getElementById('active-period-name').innerText = "BREAK ☕";
-                updateTimer(sT);
-            }
-        }
-
-        let rowClass = "";
-        if (currentM >= sT && currentM < eT) {
-            rowClass = "active-row"; activeFound = true;
-            document.getElementById('active-period-name').innerText = p.name;
-            updateTimer(eT);
-            
-            // صوت الجرس عند آخر دقيقة
-            const remaining = (eT * 60) - (now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds());
-            if (remaining <= 5 && !bellPlayed) {
-                document.getElementById('bell-sound').play();
-                bellPlayed = true;
-            }
-        } else if (currentM >= eT && activeFound) {
-            bellPlayed = false; 
-        }
-
-        html += `<tr class="${rowClass}"><td>${p.name}</td><td>${p.start}-${p.end}</td><td>${currentM >= eT ? "✅" : (rowClass ? "🟢" : "⏳")}</td></tr>`;
+    // إزالة الثيمات السابقة وتطبيق الثيم الجديد
+    themeNames.forEach(t => body.removeAttribute(`data-theme`));
+    if (themeNames[themeIndex] !== 'default') {
+        body.setAttribute('data-theme', themeNames[themeIndex]);
     }
-    document.getElementById('schedule-body').innerHTML = html;
 }
 
-function updateTimer(targetM) {
+function toggleNightMode() {
+    document.body.classList.toggle('light-mode');
+}
+
+function toggleLanguage() {
+    currentLang = currentLang === 'en' ? 'ar' : 'en';
+    const labels = {
+        en: { p: "Period", s: "Subject", t: "Time", d: "Dur", st: "Status" },
+        ar: { p: "الحصة", s: "المادة", t: "الوقت", d: "المدة", st: "الحالة" }
+    };
+    document.getElementById('lbl-p').innerText = labels[currentLang].p;
+    document.getElementById('lbl-s').innerText = labels[currentLang].s;
+    document.getElementById('lbl-t').innerText = labels[currentLang].t;
+    document.getElementById('lbl-d').innerText = labels[currentLang].d;
+    document.getElementById('lbl-st').innerText = labels[currentLang].st;
+    updateLive();
+}
+
+// البيانات المستخرجة من جدولك
+const schedule = [
+    { period: "0 pd", sub: "Community Meet 🤝", start: "07:15", end: "08:15", dur: "60m" },
+    { period: "Meet", sub: "Community Meeting 👥", start: "08:20", end: "08:30", dur: "10m" },
+    { period: "1st pd", sub: "US and the World 🌍", start: "08:30", end: "09:27", dur: "57m" },
+    { period: "2nd pd", sub: "AP Eng Lang 3 📚", start: "09:29", end: "10:26", dur: "57m" },
+    { period: "3rd pd", sub: "Algebra 2 Term 📐", start: "10:28", end: "11:25", dur: "57m" },
+    { period: "4th pd", sub: "Targeted Instru 🎯", start: "11:27", end: "12:24", dur: "57m" },
+    { period: "5th pd", sub: "Lunch 🍱", start: "12:26", end: "13:11", dur: "45m" },
+    { period: "6th pd", sub: "Earth and Space 🚀", start: "13:13", end: "14:10", dur: "57m" },
+    { period: "7th pd", sub: "Physical Educat ⚽", start: "14:12", end: "15:11", dur: "59m" }
+];
+
+function updateLive() {
     const now = new Date();
-    const diff = (targetM * 60) - (now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds());
-    const h = Math.floor(diff / 3600), m = Math.floor((diff % 3600) / 60), s = diff % 60;
-    document.getElementById('timer').innerText = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    const day = now.getDay();
+    const curTotalMin = now.getHours() * 60 + now.getMinutes();
+    const curSec = now.getSeconds();
+    
+    document.getElementById('current-day-display').innerText = now.toLocaleDateString(currentLang, { weekday: 'long' });
+
+    if (day === 0 || day === 6) {
+        document.getElementById('active-p-title').innerText = "WEEKEND";
+        document.getElementById('live-counter').innerText = currentLang === 'en' ? "OFF" : "إجازة";
+        return;
+    }
+
+    let html = "";
+    let activeFound = false;
+
+    schedule.forEach((p) => {
+        const [sh, sm] = p.start.split(":").map(Number);
+        const [eh, em] = p.end.split(":").map(Number);
+        const sT = sh * 60 + sm;
+        const eT = eh * 60 + em;
+
+        if (curTotalMin >= sT && curTotalMin < eT) {
+            activeFound = true;
+            const remMin = eT - curTotalMin - 1;
+            const remSec = 60 - curSec;
+            document.getElementById('active-p-title').innerText = `${p.period.toUpperCase()}: ${p.sub.toUpperCase()}`;
+            document.getElementById('live-counter').innerText = `${String(remMin).padStart(2, '0')}:${String(remSec === 60 ? 0 : remSec).padStart(2, '0')}`;
+            document.getElementById('fill-bar').style.width = ((curTotalMin - sT) / (eT - sT) * 100) + "%";
+            document.getElementById('p-time-info').innerText = `Ends at ${p.end}`;
+        }
+
+        let status = curTotalMin >= eT ? "Ended ✅" : (curTotalMin >= sT ? "Active 🟢" : "Wait ⏳");
+        html += `<div class="period-card" style="${status.includes('Active') ? 'border-left: 5px solid var(--accent); background: rgba(99,102,241,0.08);' : ''}">
+            <span style="font-weight:bold; color: var(--accent);">${p.period}</span>
+            <span style="font-weight:500;">${p.sub}</span>
+            <span style="color:var(--text-dim)">${p.start} - ${p.end}</span>
+            <span>${p.dur}</span>
+            <span style="color:${status.includes('Active') ? 'var(--accent)' : (status.includes('✅') ? '#4ade80' : 'var(--white)')}">${status}</span>
+        </div>`;
+    });
+
+    if (!activeFound) {
+        document.getElementById('live-counter').innerText = "00:00";
+        document.getElementById('active-p-title').innerText = currentLang === 'en' ? "SCHOOL ENDED" : "انتهى الدوام";
+    }
+    document.getElementById('schedule-list').innerHTML = html;
 }
 
-const langs = {
-    ar: { title: "الحصة القادمة", lang: "اللغة" },
-    en: { title: "Next Period", lang: "Language" },
-    es: { title: "Próximo Período", lang: "Idioma" }
-};
-
-function changeLang(l) {
-    document.getElementById('lang-text').innerText = langs[l].lang;
-    document.getElementById('status-label').innerText = langs[l].title;
-    document.documentElement.dir = (l === 'ar' ? 'rtl' : 'ltr');
-}
-
-setInterval(update, 1000);
-update();
+setInterval(updateLive, 1000);
+updateLive();
