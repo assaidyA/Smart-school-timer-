@@ -6,6 +6,7 @@
     --accent: #7b2cff;
     --active-bg: rgba(123, 44, 255, 0.2);
     --border: rgba(255, 255, 255, 0.1);
+    --clock-bg: #fdfdfd;
 }
 
 .light-mode {
@@ -23,61 +24,54 @@ body {
     background: var(--bg);
     color: var(--text);
     margin: 0;
-    transition: background 0.3s, color 0.3s;
+    transition: 0.3s;
     min-height: 100vh;
 }
 
-.top-bar {
-    display: flex; justify-content: space-between;
-    padding: 20px; max-width: 1100px; margin: 0 auto;
-}
-
-.main-layout {
-    display: flex; gap: 25px; max-width: 1100px;
-    margin: 0 auto; padding: 0 20px; flex-wrap: wrap;
-}
-
+.top-bar { display: flex; justify-content: space-between; padding: 20px; max-width: 1100px; margin: 0 auto; }
+.main-layout { display: flex; gap: 25px; max-width: 1100px; margin: 0 auto; padding: 0 20px; flex-wrap: wrap; }
 .side-panel { flex: 1; min-width: 300px; }
 .content-panel { flex: 2; min-width: 400px; }
 
+/* تصميم الساعة */
+.analog-clock {
+    width: 180px; height: 180px; background: var(--clock-bg);
+    border: 8px solid #cbd5e1; border-radius: 50%;
+    margin: 0 auto 20px auto; position: relative;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+.brand {
+    position: absolute; width: 100%; text-align: center; top: 65%;
+    font-size: 14px; font-weight: 800; color: #b48c36; letter-spacing: 1px;
+}
+.center-dot {
+    position: absolute; width: 10px; height: 10px; background: #94a3b8;
+    border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 10;
+}
+.hour-hand, .minute-hand, .second-hand {
+    position: absolute; bottom: 50%; left: 50%; transform-origin: bottom; border-radius: 5px;
+}
+.hour-hand { width: 5px; height: 45px; background: #334155; z-index: 3; }
+.minute-hand { width: 3px; height: 65px; background: #b48c36; z-index: 2; }
+.second-hand { width: 1.5px; height: 75px; background: #ef4444; z-index: 1; }
+.number { position: absolute; font-weight: bold; color: #1e293b; font-size: 14px; }
+.n12 { top: 10px; left: 50%; transform: translateX(-50%); }
+.n3 { right: 10px; top: 50%; transform: translateY(-50%); }
+.n6 { bottom: 10px; left: 50%; transform: translateX(-50%); }
+.n9 { left: 10px; top: 50%; transform: translateY(-50%); }
+
+/* البطاقة والجدول */
 .status-card {
-    background: var(--card);
-    backdrop-filter: blur(12px);
-    padding: 35px; border-radius: 28px;
-    border: 1px solid var(--border);
-    text-align: center; position: sticky; top: 20px;
+    background: var(--card); backdrop-filter: blur(12px);
+    padding: 30px; border-radius: 28px; border: 1px solid var(--border);
+    text-align: center;
 }
-
-#timer {
-    font-family: 'Space Mono', monospace;
-    font-size: 3.2rem; color: var(--accent);
-    margin: 15px 0; text-shadow: 0 0 20px var(--active-bg);
-}
-
-.schedule-container {
-    background: var(--card);
-    border-radius: 28px; overflow: hidden;
-    border: 1px solid var(--border);
-}
-
+#timer { font-family: 'Space Mono', monospace; font-size: 2.8rem; color: var(--accent); margin: 10px 0; }
+.schedule-container { background: var(--card); border-radius: 28px; overflow: hidden; border: 1px solid var(--border); }
 table { width: 100%; border-collapse: collapse; }
-th {
-    padding: 20px; text-align: inherit; color: var(--dim);
-    font-size: 0.75rem; text-transform: uppercase;
-    border-bottom: 1px solid var(--border);
-}
-td { padding: 20px; border-bottom: 1px solid var(--border); font-size: 0.95rem; }
-
+th { padding: 15px; text-align: inherit; color: var(--dim); font-size: 0.7rem; border-bottom: 1px solid var(--border); }
+td { padding: 15px; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
 .active-row { background: var(--active-bg); color: #00f2ff; border-right: 4px solid var(--accent); }
-
-.progress-container {
-    background: rgba(255,255,255,0.05); height: 8px;
-    border-radius: 10px; margin-top: 20px; overflow: hidden;
-}
-#progress-bar { background: var(--accent); height: 100%; width: 0%; transition: width 1s; }
-
-button {
-    cursor: pointer; padding: 10px 18px; border-radius: 12px;
-    border: 1px solid var(--border); background: var(--card);
-    color: var(--text); font-weight: 600;
-}
+.progress-container { background: rgba(255,255,255,0.05); height: 6px; border-radius: 10px; margin-top: 15px; overflow: hidden; }
+#progress-bar { background: var(--accent); height: 100%; width: 0%; transition: 1s; }
+button { cursor: pointer; padding: 8px 15px; border-radius: 10px; border: 1px solid var(--border); background: var(--card); color: var(--text); }
