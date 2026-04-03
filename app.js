@@ -42,7 +42,6 @@ const schedule = [
 
 function updateLive() {
     const now = new Date();
-    const day = now.getDay();
     const curTotalMin = now.getHours() * 60 + now.getMinutes();
     const curSec = now.getSeconds();
     
@@ -68,7 +67,7 @@ function updateLive() {
         }
 
         let status = curTotalMin >= eT ? "Ended ✅" : (curTotalMin >= sT ? "Active 🟢" : "Wait ⏳");
-        html += `<div class="period-card" style="${status.includes('Active') ? 'border-left: 5px solid var(--accent); background: rgba(255,255,255,0.05);' : ''}">
+        html += `<div class="period-card" style="${status.includes('Active') ? 'border-left: 5px solid var(--accent);' : ''}">
             <span style="font-weight:bold; color: var(--accent);">${p.period}</span>
             <span>${p.sub}</span>
             <span style="color:var(--text-dim)">${p.start} - ${p.end}</span>
