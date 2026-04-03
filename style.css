@@ -33,7 +33,6 @@ body { background: var(--primary-bg); color: var(--white); font-family: sans-ser
 .period-card { background: var(--card-bg); border-radius: 15px; padding: 20px 25px; margin-bottom: 10px; border: 1px solid rgba(255,255,255,0.03); }
 .labels-grid { padding: 0 25px 15px; color: var(--text-dim); font-size: 12px; font-weight: 800; text-transform: uppercase; }
 
-/* Link Styling */
 .my-link { color: var(--accent); text-decoration: none; font-weight: bold; transition: 0.3s; }
 .my-link:hover { text-decoration: underline; opacity: 0.8; }
 .footer-info { text-align: center; margin-top: 40px; padding: 20px; font-size: 14px; color: var(--text-dim); border-top: 1px solid rgba(255,255,255,0.05); }
