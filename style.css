@@ -1,59 +1,30 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Next Period | ASSAIDY</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
-</head>
-<body class="theme-purple">
+.theme-purple { --accent: #7b2cff; --active-bg: rgba(123, 44, 255, 0.15); }
+.theme-blue { --accent: #2563eb; --active-bg: rgba(37, 99, 235, 0.15); }
+.theme-green { --accent: #10b981; --active-bg: rgba(16, 185, 129, 0.15); }
+.theme-gold { --accent: #f59e0b; --active-bg: rgba(245, 158, 11, 0.15); }
 
-    <div class="top-bar">
-        <div class="logo-section">
-            <img src="logo.svg" alt="Clock" class="header-clock-icon">
-            <span class="brand-name">NextPeriod</span>
-        </div>
-        
-        <div class="theme-controls">
-            <select id="theme-select" onchange="changeTheme(this.value)">
-                <option value="theme-purple">🟣 البنفسجي</option>
-                <option value="theme-blue">🔵 الأزرق</option>
-                <option value="theme-green">🟢 الأخضر</option>
-                <option value="theme-gold">🟠 الذهبي</option>
-            </select>
-            <button onclick="toggleMode()" id="mode-btn">🌙</button>
-        </div>
-    </div>
+:root { --bg: #0b0b1a; --card: rgba(23, 23, 45, 0.8); --text: #ffffff; --border: rgba(255, 255, 255, 0.1); }
+.light-mode { --bg: #f8fafc; --card: #ffffff; --text: #1e293b; --border: rgba(0, 0, 0, 0.05); }
 
-    <div class="main-layout">
-        <aside class="side-panel">
-            <div class="status-card">
-                <img src="logo.png" alt="OHS Logo" class="school-logo">
-                <h2 id="day-display">---</h2>
-                <div id="active-period-label">الحصة الحالية</div>
-                <div id="active-period-name">--</div>
-                <div id="timer">00:00:00</div>
-                <div class="progress-container"><div id="progress-bar"></div></div>
-            </div>
-        </aside>
+body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); transition: 0.4s; margin: 0; }
+.top-bar { display: flex; justify-content: space-between; align-items: center; padding: 15px 30px; max-width: 1200px; margin: 0 auto; }
+.logo-section { display: flex; align-items: center; gap: 12px; }
+.header-clock-icon { width: 30px; height: 30px; filter: drop-shadow(0 0 8px var(--accent)); }
+.brand-name { font-size: 1.6rem; font-weight: 800; }
+.theme-controls { display: flex; gap: 10px; }
+#theme-select { background: var(--card); color: var(--text); border: 1px solid var(--border); padding: 5px; border-radius: 8px; cursor: pointer; }
+#mode-btn { background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 5px 10px; border-radius: 8px; cursor: pointer; }
 
-        <main class="content-panel">
-            <div class="schedule-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>الحصة</th>
-                            <th>الوقت</th>
-                            <th>المدة</th>
-                            <th>الحالة</th>
-                        </tr>
-                    </thead>
-                    <tbody id="schedule-body"></tbody>
-                </table>
-            </div>
-        </main>
-    </div>
-    <script src="app.js"></script>
-</body>
-</html>
+.main-layout { display: flex; gap: 25px; max-width: 1200px; margin: 20px auto; padding: 0 20px; flex-wrap: wrap; }
+.side-panel { flex: 1; min-width: 320px; }
+.content-panel { flex: 2.5; min-width: 450px; }
+.school-logo { width: 120px; margin-bottom: 15px; }
+.status-card { background: var(--card); padding: 30px; border-radius: 28px; border: 1px solid var(--border); text-align: center; backdrop-filter: blur(10px); }
+#timer { font-family: 'Space Mono', monospace; font-size: 3rem; color: var(--accent); margin: 15px 0; }
+
+.active-row { background: var(--active-bg) !important; color: var(--accent); font-weight: bold; border-right: 5px solid var(--accent); }
+.schedule-container { background: var(--card); border-radius: 28px; border: 1px solid var(--border); overflow: hidden; }
+table { width: 100%; border-collapse: collapse; }
+td, th { padding: 20px; text-align: center; border-bottom: 1px solid var(--border); }
+.progress-container { background: rgba(0,0,0,0.2); height: 8px; border-radius: 10px; overflow: hidden; }
+#progress-bar { background: var(--accent); height: 100%; width: 0%; transition: 1s linear; }
