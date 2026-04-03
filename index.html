@@ -18,7 +18,7 @@
         
         <div class="controls-group">
             <div class="dropdown">
-                <button class="dropbtn">🌐 اللغة</button>
+                <button class="dropbtn">🌐 <span id="lang-text">Language</span></button>
                 <div class="dropdown-content">
                     <a href="#" onclick="changeLang('ar')">العربية</a>
                     <a href="#" onclick="changeLang('en')">English</a>
@@ -34,31 +34,43 @@
         </div>
     </div>
 
-    <div class="main-container">
-        <div class="card current-status">
-            <div class="roman-clock">
-                <div class="dot"></div>
-                <div class="hand hour-hand"></div>
-                <div class="hand min-hand"></div>
-                <div class="hand sec-hand"></div>
-                <span class="number num12">XII</span>
-                <span class="number num3">III</span>
-                <span class="number num6">VI</span>
-                <span class="number num9">IX</span>
+    <div class="main-layout">
+        <aside class="side-panel">
+            <div class="status-card">
+                <div class="roman-clock-container">
+                    <div class="roman-clock">
+                        <div class="dot"></div>
+                        <div class="hand hour-hand"></div>
+                        <div class="hand min-hand"></div>
+                        <div class="hand sec-hand"></div>
+                        <span class="num n12">XII</span>
+                        <span class="num n3">III</span>
+                        <span class="num n6">VI</span>
+                        <span class="num n9">IX</span>
+                    </div>
+                </div>
+                <h2 id="day-display">---</h2>
+                <div id="status-label">الحصة الحالية</div>
+                <h1 id="active-period-name">--</h1>
+                <div id="timer">00:00:00</div>
+                <div class="progress-container"><div id="progress-bar"></div></div>
             </div>
+        </aside>
 
-            <h2 id="day-display">---</h2>
-            <div id="period-status-label">الحصة الحالية</div>
-            <h1 id="active-period-name">--</h1>
-            <div id="timer">00:00:00</div>
-            <div class="progress-bar-container"><div id="progress-bar"></div></div>
-        </div>
-
-        <div class="card schedule-list">
-            <table>
-                <tbody id="schedule-body"></tbody>
-            </table>
-        </div>
+        <main class="content-panel">
+            <div class="schedule-box">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>الحصة</th>
+                            <th>الوقت</th>
+                            <th>الحالة</th>
+                        </tr>
+                    </thead>
+                    <tbody id="schedule-body"></tbody>
+                </table>
+            </div>
+        </main>
     </div>
     <script src="app.js"></script>
 </body>
