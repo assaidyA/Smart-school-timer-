@@ -7,7 +7,7 @@ const weekSchedule = {
         { name: "Lunch", start: "11:27", end: "12:24" },
         { name: "Earth and Space", start: "12:26", end: "13:11" },
         { name: "Targeted Instruct", start: "13:13", end: "14:10" },
-        { name: "Physical Education", start: "14:12", end: "15:11" } // الحصة الثامنة
+        { name: "Physical Education", start: "14:12", end: "15:11" }
     ],
     "Tuesday": [
         { name: "Community Meet", start: "07:15", end: "08:15" },
@@ -18,14 +18,14 @@ const weekSchedule = {
         { name: "AP Eng Lang 3", start: "12:26", end: "13:11" },
         { name: "Earth and Space", start: "13:13", end: "14:10" }
     ],
-    "Wednesday": [ // جدول الأربعاء القصير
+    "Wednesday": [ // الجدول القصير للأربعاء
         { name: "Community Meet", start: "07:15", end: "08:15" },
         { name: "AP Eng Lang 3", start: "08:30", end: "09:16" },
         { name: "US and the World", start: "09:18", end: "10:04" },
         { name: "Junior Prep Seminar", start: "10:06", end: "10:52" },
         { name: "Lunch", start: "10:54", end: "11:39" },
         { name: "Earth and Space", start: "11:41", end: "12:27" },
-        { name: "Targeted Instruct", start: "12:29", end: "1:15" },
+        { name: "Targeted Instruct", start: "12:29", end: "13:15" },
         { name: "Algebra 2 Term", start: "13:17", end: "14:05" }
     ],
     "Thursday": [
@@ -36,7 +36,7 @@ const weekSchedule = {
         { name: "US and the World", start: "11:27", end: "12:24" },
         { name: "Lunch", start: "12:26", end: "13:11" },
         { name: "Earth and Space", start: "13:13", end: "14:10" },
-        { name: "Physical Education", start: "14:12", end: "15:11" } // الحصة الثامنة
+        { name: "Physical Education", start: "14:12", end: "15:11" }
     ],
     "Friday": [
         { name: "Community Meet", start: "07:15", end: "08:15" },
@@ -71,16 +71,16 @@ function update() {
         if (currentTime >= startT && currentTime < endT) {
             rowClass = "active-row"; activeFound = true;
             document.getElementById('active-period-name').innerText = p.name;
-            const diff = (endT * 60) - (now.getHours()*3600 + now.getMinutes()*60 + now.getSeconds());
-            const h = Math.floor(diff/3600), m = Math.floor((diff%3600)/60), s = diff%60;
+            const diffInSec = (endT * 60) - (now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds());
+            const h = Math.floor(diffInSec / 3600), m = Math.floor((diffInSec % 3600) / 60), s = diffInSec % 60;
             document.getElementById('timer').innerText = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
             document.getElementById('progress-bar').style.width = ((currentTime - startT) / (endT - startT) * 100) + "%";
         }
         html += `<tr class="${rowClass}"><td>${p.name}</td><td>${p.start}-${p.end}</td><td>${endT-startT}m</td><td>${currentTime >= endT ? "✅" : (rowClass ? "🟢" : "⏳")}</td></tr>`;
     });
 
-    document.getElementById('schedule-body').innerHTML = html || '<tr><td colspan="4">عطلة نهاية الأسبوع 🌴</td></tr>';
-    if (!activeFound) { document.getElementById('active-period-name').innerText = "انتهى اليوم الدراسي"; document.getElementById('timer').innerText = "00:00:00"; }
+    document.getElementById('schedule-body').innerHTML = html || '<tr><td colspan="4">إجازة سعيدة! 🌴</td></tr>';
+    if (!activeFound) { document.getElementById('active-period-name').innerText = "انتهى الدوام"; document.getElementById('timer').innerText = "00:00:00"; }
 }
 
 setInterval(update, 1000);
