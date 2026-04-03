@@ -1,52 +1,57 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Next Period | Assaidy Schedule</title>
-    <link rel="icon" href="logo.png" type="image/png">
+    <title>Next Period | جدول الحصص الذكي</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@700&family=Inter:wght@400;700&family=Syne:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
 </head>
-<body>
+<body class="dark-mode">
 
-    <div class="container">
+    <div class="top-bar">
+        <div class="theme-switch">
+            <button onclick="toggleTheme()" id="theme-btn">☀️ Light Mode</button>
+        </div>
         <div class="lang-switcher">
             <button onclick="setLanguage('en')">EN</button>
             <button onclick="setLanguage('ar')">AR</button>
             <button onclick="setLanguage('es')">ES</button>
         </div>
+    </div>
 
-        <header>
-            <h1 class="main-title">Next Period</h1>
-            <p class="sub-title">Assaidy Schedule</p>
-            <p id="current-day-status">Loading...</p>
-        </header>
-
-        <div class="timer-section">
-            <div id="active-period-name">Checking Schedule...</div>
-            <div id="timer">00:00:00</div>
-            <div class="progress-container">
-                <div id="progress-bar"></div>
+    <div class="main-layout">
+        <aside class="side-panel">
+            <div class="status-card">
+                <h2 id="day-display">---</h2>
+                <div id="active-period-label">الحصة الحالية</div>
+                <div id="active-period-name">--</div>
+                <div id="timer">00:00:00</div>
+                <div class="progress-container">
+                    <div id="progress-bar"></div>
+                </div>
             </div>
-        </div>
+        </aside>
 
-        <div class="schedule-table">
-            <table>
-                <thead>
-                    <tr id="table-head">
-                        <th>Period</th>
-                        <th>Time</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody id="schedule-body"></tbody>
-            </table>
-        </div>
+        <main class="content-panel">
+            <div class="schedule-container">
+                <table>
+                    <thead>
+                        <tr id="table-head">
+                            <th>الحصة</th>
+                            <th>الوقت</th>
+                            <th>المدة</th>
+                            <th>الحالة</th>
+                        </tr>
+                    </thead>
+                    <tbody id="schedule-body">
+                        </tbody>
+                </table>
+            </div>
+        </main>
     </div>
 
     <audio id="bell-sound" src="bell.mp3" preload="auto"></audio>
-
     <script src="app.js"></script>
 </body>
 </html>
