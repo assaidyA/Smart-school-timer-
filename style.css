@@ -6,7 +6,7 @@
     --text-dim: #888;
 }
 
-/* سمات الألوان المختلفة */
+/* أنظمة الألوان (Themes) */
 [data-theme="green"] { --accent: #22c55e; --primary-bg: #020a05; --card-bg: #0d1a10; }
 [data-theme="pink"] { --accent: #ec4899; --primary-bg: #0a0206; --card-bg: #1a0d15; }
 [data-theme="gold"] { --accent: #f59e0b; --primary-bg: #0a0702; --card-bg: #1a140d; }
@@ -19,29 +19,87 @@
     --text-dim: #666;
 }
 
-body { background: var(--primary-bg); color: var(--white); font-family: 'Inter', sans-serif; padding: 20px; margin: 0; transition: 0.4s ease; }
-.box { background: var(--card-bg); border-radius: 30px; border: 1px solid rgba(255,255,255,0.05); transition: 0.4s; }
+body { 
+    background: var(--primary-bg); 
+    color: var(--white); 
+    font-family: 'Inter', sans-serif; 
+    padding: 20px; 
+    margin: 0; 
+    transition: 0.4s ease; 
+}
 
-.header-box { padding: 40px; margin-bottom: 25px; position: relative; text-align: center; }
-.user-id { color: var(--accent); font-weight: bold; font-size: 20px; letter-spacing: 5px; margin-top: 10px; }
-.bottom-left-controls { position: absolute; bottom: 20px; left: 20px; display: flex; gap: 10px; }
-.control-btn { background: rgba(255,255,255,0.1); border: none; padding: 12px; border-radius: 12px; cursor: pointer; color: var(--white); font-size: 18px; }
-
-.main-timer { padding: 40px; text-align: center; margin-bottom: 30px; }
-#live-counter { font-size: 120px; font-weight: 900; margin: 10px 0; color: var(--white); }
-#fill-bar { height: 100%; background: var(--accent); width: 0%; transition: 0.4s; box-shadow: 0 0 15px var(--accent); }
-.progress-track { background: rgba(255,255,255,0.05); height: 12px; border-radius: 10px; width: 80%; margin: 25px auto; overflow: hidden; }
-
-.period-card, .labels-grid { display: grid; grid-template-columns: 1fr 2.5fr 2fr 1fr 1.2fr; gap: 15px; align-items: center; }
-.period-card { background: var(--card-bg); border-radius: 15px; padding: 20px 25px; margin-bottom: 10px; border: 1px solid rgba(255,255,255,0.03); }
-.labels-grid { padding: 0 25px 15px; color: var(--text-dim); font-weight: 800; font-size: 12px; text-transform: uppercase; }
-
-/* تنسيق التذييل */
-.footer-info {
+.box { 
+    background: var(--card-bg); 
+    border-radius: 30px; 
+    border: 1px solid rgba(255,255,255,0.05); 
+    margin-bottom: 25px;
+    padding: 40px;
     text-align: center;
-    margin-top: 40px;
-    padding: 20px;
-    font-size: 14px;
-    color: var(--text-dim);
-    border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+.big-clock { font-size: 100px; display: block; margin-bottom: 10px; }
+h1 { margin: 0; font-size: 32px; }
+.user-id { color: var(--accent); font-weight: bold; font-size: 20px; letter-spacing: 5px; }
+
+.control-btn { 
+    background: rgba(255,255,255,0.1); 
+    border: none; 
+    padding: 12px; 
+    border-radius: 12px; 
+    cursor: pointer; 
+    color: var(--white); 
+    font-size: 20px; 
+    margin: 0 5px;
+}
+
+#live-counter { font-size: 120px; font-weight: 900; margin: 10px 0; }
+
+.progress-track { 
+    background: rgba(255,255,255,0.05); 
+    height: 12px; 
+    border-radius: 10px; 
+    width: 80%; 
+    margin: 25px auto; 
+    overflow: hidden; 
+}
+
+#fill-bar { 
+    height: 100%; 
+    background: var(--accent); 
+    width: 0%; 
+    transition: 0.4s; 
+    box-shadow: 0 0 15px var(--accent); 
+}
+
+.period-card, .labels-grid { 
+    display: grid; 
+    grid-template-columns: 1fr 2.5fr 2fr 1fr 1.2fr; 
+    gap: 15px; 
+    align-items: center; 
+    text-align: left;
+}
+
+.period-card { 
+    background: var(--card-bg); 
+    border-radius: 15px; 
+    padding: 20px 25px; 
+    margin-bottom: 10px; 
+    border: 1px solid rgba(255,255,255,0.03); 
+}
+
+.labels-grid { 
+    padding: 0 25px 15px; 
+    color: var(--text-dim); 
+    font-weight: 800; 
+    font-size: 12px; 
+    text-transform: uppercase; 
+}
+
+.footer-info { 
+    text-align: center; 
+    margin-top: 50px; 
+    padding: 20px; 
+    font-size: 14px; 
+    color: var(--text-dim); 
+    border-top: 1px solid rgba(255,255,255,0.05); 
 }
