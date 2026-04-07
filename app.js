@@ -1,134 +1,211 @@
-let currentLang = 'en';
-let themeIndex = 0;
-const themeNames = ['default', 'green', 'pink', 'gold', 'cyan'];
+let currentLang = 'ar';
+let btnColorIdx = 0;
+let fullThemeIdx = 0;
+let score = 0;
 
-function nextTheme() {
-    themeIndex = (themeIndex + 1) % themeNames.length;
-    document.body.removeAttribute('data-theme');
-    if (themeNames[themeIndex] !== 'default') {
-        document.body.setAttribute('data-theme', themeNames[themeIndex]);
+const btnColors = ['btn-default', 'btn-green', 'btn-red', 'btn-gold'];
+const fullThemes = ['bg-default', 'bg-dark-blue', 'bg-dark-green', 'bg-dark-red'];
+
+// القاموس الشامل لكل الكلمات في الصفحة
+const dictionary = {
+    ar: {
+        title: "نيكسيت بيريود",
+        tagline: "مؤقت الجرس الذكي",
+        p: "الحصة", s: "المادة", tr: "المعلم", t: "الوقت", d: "المدة", st: "الحالة",
+        weekend: "عطلة سعيدة! استمتع بوقتك ✨",
+        game: "اصطاد الإيموجي!",
+        score: "النقاط: ",
+        footer: "تحديث تلقائي كل ثانية",
+        nextSchool: "المتبقي للمدرسة: ",
+        now: "الحالية: ",
+        loading: "جاري التحميل...",
+        ended: "انتهت ✅",
+        active: "جارية 🟢",
+        wait: "انتظار ⏳",
+        lunch: "غداء",
+        noTeacher: "بدون معلم"
+    },
+    en: {
+        title: "NextPeriod",
+        tagline: "Smart Bell Schedule Countdown",
+        p: "Period", s: "Subject", tr: "Teacher", t: "Time", d: "Dur", st: "Status",
+        weekend: "Happy Weekend! Enjoy ✨",
+        game: "Tap the Emoji!",
+        score: "Score: ",
+        footer: "Auto-updates every second",
+        nextSchool: "Next School in: ",
+        now: "Current: ",
+        loading: "Loading...",
+        ended: "Ended ✅",
+        active: "Active 🟢",
+        wait: "Wait ⏳",
+        lunch: "Lunch",
+        noTeacher: "No Teacher"
     }
-}
+};
 
-function toggleNightMode() {
-    document.body.classList.toggle('light-mode');
-}
-
-function toggleLanguage() {
-    currentLang = currentLang === 'en' ? 'ar' : 'en';
-    const labels = {
-        en: { p: "Period", s: "Subject", tr: "Teacher & Room", t: "Time", d: "Dur", st: "Status" },
-        ar: { p: "الحصة", s: "المادة", tr: "الأستاذ والغرفة", t: "الوقت", d: "المدة", st: "الحالة" }
-    };
-    document.getElementById('lbl-p').innerText = labels[currentLang].p;
-    document.getElementById('lbl-s').innerText = labels[currentLang].s;
-    document.getElementById('lbl-tr').innerText = labels[currentLang].tr;
-    document.getElementById('lbl-t').innerText = labels[currentLang].t;
-    document.getElementById('lbl-d').innerText = labels[currentLang].d;
-    document.getElementById('lbl-st').innerText = labels[currentLang].st;
-    updateLive();
-}
-
-const timeSlots = [
-    { start: "08:20", end: "08:30", dur: "10m" }, // 0
-    { start: "08:30", end: "09:27", dur: "57m" }, // 1
-    { start: "09:29", end: "10:26", dur: "57m" }, // 2
-    { start: "10:28", end: "11:25", dur: "57m" }, // 3
-    { start: "11:27", end: "12:24", dur: "57m" }, // 4
-    { start: "12:26", end: "13:11", dur: "45m" }, // 5
-    { start: "13:13", end: "14:10", dur: "57m" }, // 6
-    { start: "14:12", end: "15:11", dur: "59m" }  // 7
+const bellTimes = [
+    { start: "08:30", end: "09:27", dur: "57m" },
+    { start: "09:29", end: "10:26", dur: "57m" },
+    { start: "10:28", end: "11:25", dur: "57m" },
+    { start: "11:27", end: "12:24", dur: "57m" },
+    { start: "12:26", end: "13:11", dur: "45m" },
+    { start: "13:13", end: "14:10", dur: "57m" },
+    { start: "14:12", end: "15:11", dur: "59m" }
 ];
 
-const fullSchedule = {
+// الجدول مع ترجمة المواد والأساتذة
+const schedule = {
     "Monday": [
-        {s: "Community Meeting", tr: "No Teacher | RM 1ST"}, {s: "US and the World", tr: "Brodowski | RM 273"},
-        {s: "AP Eng Lang 3", tr: "Rice | RM 272"}, {s: "Algebra 2", tr: "Lam | RM 276"},
-        {s: "Targeted Instru", tr: "Irizarry | RM 179"}, {s: "Lunch", tr: "No Teacher | CAF"},
-        {s: "Earth and Space", tr: "McMurray | RM 271"}, {s: "Physical Educat", tr: "Shehata | RM 183G"}
+        { ar: {s:"أمريكا والعالم", tr:"برودوسكي"}, en: {s:"US World", tr:"Brodowski"} },
+        { ar: {s:"اللغة الإنجليزية AP", tr:"رايس"}, en: {s:"AP Eng", tr:"Rice"} },
+        { ar: {s:"جبر 2", tr:"لام"}, en: {s:"Algebra 2", tr:"Lam"} },
+        { ar: {s:"تعليم موجه", tr:"إيريزاري"}, en: {s:"Targeted", tr:"Irizarry"} },
+        { ar: {s:"غداء", tr:"طاقم العمل"}, en: {s:"Lunch", tr:"Staff"} },
+        { ar: {s:"علوم الأرض", tr:"ماكموري"}, en: {s:"Earth Sci", tr:"McMurray"} },
+        { ar: {s:"تربية بدنية", tr:"شحاتة"}, en: {s:"PE", tr:"Shehata"} }
     ],
     "Tuesday": [
-        {s: "Community Meeting", tr: "No Teacher | RM 1ST"}, {s: "Algebra 2", tr: "Lam | RM 276"},
-        {s: "Targeted Instru", tr: "Irizarry | RM 179"}, {s: "Advisory 11", tr: "Sterner | RM 178"},
-        {s: "US and the World", tr: "Brodowski | RM 273"}, {s: "Lunch", tr: "No Teacher | CAF"},
-        {s: "AP Eng Lang 3", tr: "Rice | RM 272"}, {s: "Earth and Space", tr: "McMurray | RM 271"}
+        { ar: {s:"جبر 2", tr:"لام"}, en: {s:"Algebra 2", tr:"Lam"} },
+        { ar: {s:"تعليم موجه", tr:"إيريزاري"}, en: {s:"Targeted", tr:"Irizarry"} },
+        { ar: {s:"إرشاد", tr:"ستيرنر"}, en: {s:"Advisory", tr:"Sterner"} },
+        { ar: {s:"أمريكا والعالم", tr:"برودوسكي"}, en: {s:"US World", tr:"Brodowski"} },
+        { ar: {s:"غداء", tr:"طاقم العمل"}, en: {s:"Lunch", tr:"Staff"} },
+        { ar: {s:"اللغة الإنجليزية AP", tr:"رايس"}, en: {s:"AP Eng", tr:"Rice"} },
+        { ar: {s:"علوم الأرض", tr:"ماكموري"}, en: {s:"Earth Sci", tr:"McMurray"} },
+        { ar: {s:"علوم الأرض", tr:"ماكموري"}, en: {s:"Earth Sci", tr:"McMurray"} }
     ],
     "Wednesday": [
-        {s: "Community Meeting", tr: "No Teacher | RM 1ST"}, {s: "AP Eng Lang 3", tr: "Rice | RM 272"},
-        {s: "US and the World", tr: "Brodowski | RM 273"}, {s: "Junior Post Sec", tr: "Valentine | RM 267"},
-        {s: "Lunch", tr: "No Teacher | CAF"}, {s: "Earth & Space Lab", tr: "McMurray | RM 179"},
-        {s: "Targeted Instru", tr: "Irizarry | RM 276"}, {s: "Algebra 2", tr: "Lam | RM 271"}
+        { ar: {s:"اللغة الإنجليزية AP", tr:"رايس"}, en: {s:"AP Eng", tr:"Rice"} },
+        { ar: {s:"أمريكا والعالم", tr:"برودوسكي"}, en: {s:"US World", tr:"Brodowski"} },
+        { ar: {s:"توجيه مهني", tr:"فالانتاين"}, en: {s:"Junior Post", tr:"Valentine"} },
+        { ar: {s:"علوم الأرض", tr:"ماكموري"}, en: {s:"Earth Sci", tr:"McMurray"} },
+        { ar: {s:"تعليم موجه", tr:"إيريزاري"}, en: {s:"Targeted", tr:"Irizarry"} },
+        { ar: {s:"جبر 2", tr:"لام"}, en: {s:"Algebra 2", tr:"Lam"} },
+        { ar: {s:"علوم الأرض", tr:"ماكموري"}, en: {s:"Earth Sci", tr:"McMurray"} }
     ],
     "Thursday": [
-        {s: "Community Meeting", tr: "No Teacher | RM 1ST"}, {s: "Targeted Instru", tr: "Irizarry | RM 179"},
-        {s: "Algebra 2", tr: "Lam | RM 276"}, {s: "AP Eng Lang 3", tr: "Rice | RM 272"},
-        {s: "US and the World", tr: "Brodowski | RM 273"}, {s: "Lunch", tr: "No Teacher | CAF"},
-        {s: "Earth and Space", tr: "McMurray | RM 271"}, {s: "Physical Educat", tr: "Shehata | RM 183G"}
+        { ar: {s:"تعليم موجه", tr:"إيريزاري"}, en: {s:"Targeted", tr:"Irizarry"} },
+        { ar: {s:"جبر 2", tr:"لام"}, en: {s:"Algebra 2", tr:"Lam"} },
+        { ar: {s:"اللغة الإنجليزية AP", tr:"رايس"}, en: {s:"AP Eng", tr:"Rice"} },
+        { ar: {s:"أمريكا والعالم", tr:"برودوسكي"}, en: {s:"US World", tr:"Brodowski"} },
+        { ar: {s:"غداء", tr:"طاقم العمل"}, en: {s:"Lunch", tr:"Staff"} },
+        { ar: {s:"علوم الأرض", tr:"ماكموري"}, en: {s:"Earth Sci", tr:"McMurray"} },
+        { ar: {s:"تربية بدنية", tr:"شحاتة"}, en: {s:"PE", tr:"Shehata"} }
     ],
     "Friday": [
-        {s: "Community Meeting", tr: "No Teacher | RM 1ST"}, {s: "US and the World", tr: "Brodowski | RM 273"},
-        {s: "Algebra 2", tr: "Lam | RM 276"}, {s: "Targeted Instru", tr: "Irizarry | RM 179"},
-        {s: "Advisory 11", tr: "Sterner | RM 178"}, {s: "Lunch", tr: "No Teacher | CAF"},
-        {s: "Earth and Space", tr: "McMurray | RM 271"}, {s: "AP Eng Lang 3", tr: "Rice | RM 272"}
+        { ar: {s:"أمريكا والعالم", tr:"برودوسكي"}, en: {s:"US World", tr:"Brodowski"} },
+        { ar: {s:"جبر 2", tr:"لام"}, en: {s:"Algebra 2", tr:"Lam"} },
+        { ar: {s:"تعليم موجه", tr:"إيريزاري"}, en: {s:"Targeted", tr:"Irizarry"} },
+        { ar: {s:"إرشاد", tr:"ستيرنر"}, en: {s:"Advisory", tr:"Sterner"} },
+        { ar: {s:"غداء", tr:"طاقم العمل"}, en: {s:"Lunch", tr:"Staff"} },
+        { ar: {s:"علوم الأرض", tr:"ماكموري"}, en: {s:"Earth Sci", tr:"McMurray"} },
+        { ar: {s:"اللغة الإنجليزية AP", tr:"رايس"}, en: {s:"AP Eng", tr:"Rice"} }
     ]
 };
 
-function updateLive() {
-    const now = new Date();
-    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    const dayName = days[now.getDay()];
-    const curTotalMin = now.getHours() * 60 + now.getMinutes();
-    const curSec = now.getSeconds();
+function toggleLanguage() {
+    currentLang = currentLang === 'ar' ? 'en' : 'ar';
+    document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+    const d = dictionary[currentLang];
     
-    document.getElementById('current-day-display').innerText = now.toLocaleDateString(currentLang, { weekday: 'long' });
+    // تحديث النصوص الثابتة
+    document.getElementById('nav-title').innerText = d.title;
+    document.getElementById('nav-tagline').innerText = d.tagline;
+    document.getElementById('lbl-p').innerText = d.p;
+    document.getElementById('lbl-s').innerText = d.s;
+    document.getElementById('lbl-tr').innerText = d.tr;
+    document.getElementById('lbl-t').innerText = d.t;
+    document.getElementById('lbl-d').innerText = d.d;
+    document.getElementById('lbl-st').innerText = d.st;
+    document.getElementById('weekend-msg').innerText = d.weekend;
+    document.getElementById('game-instruction').innerText = d.game;
+    document.getElementById('footer-text').innerText = d.footer;
+    document.getElementById('score-val').innerText = d.score + score;
 
-    if (dayName === "Saturday" || dayName === "Sunday") {
-        document.getElementById('active-p-title').innerText = "WEEKEND";
-        document.getElementById('live-counter').innerText = "OFF";
-        document.getElementById('schedule-list').innerHTML = "<p style='text-align:center; padding:40px; opacity:0.5;'>Enjoy your weekend! ☕</p>";
-        return;
-    }
+    update(); // تحديث الجدول فوراً باللغة الجديدة
+}
 
-    const todayLessons = fullSchedule[dayName];
-    let html = "";
+function update() {
+    const now = new Date();
+    const day = now.toLocaleDateString('en-US', { weekday: 'long' });
+    const totalMin = now.getHours() * 60 + now.getMinutes();
+    const sec = now.getSeconds();
+    const d = dictionary[currentLang];
+
+    const isWeekend = (day === "Saturday" || day === "Sunday");
+    document.getElementById('schedule-section').style.display = isWeekend ? 'none' : 'block';
+    document.getElementById('weekend-section').style.display = isWeekend ? 'block' : 'none';
+
+    document.getElementById('current-day-display').innerText = 
+        now.toLocaleDateString(currentLang === 'ar' ? 'ar-SA' : 'en-US', { weekday: 'long' });
+
     let activeFound = false;
+    const lessons = schedule[day] || [];
+    let html = "";
 
-    todayLessons.forEach((lesson, index) => {
-        const slot = timeSlots[index];
+    lessons.forEach((lesson, i) => {
+        const slot = bellTimes[i]; if(!slot) return;
         const [sh, sm] = slot.start.split(":").map(Number);
         const [eh, em] = slot.end.split(":").map(Number);
-        const sT = sh * 60 + sm;
-        const eT = eh * 60 + em;
+        const sT = sh*60+sm; const eT = eh*60+em;
 
-        let status = curTotalMin >= eT ? "Ended ✅" : (curTotalMin >= sT ? "Active 🟢" : "Wait ⏳");
-        
-        if (status === "Active 🟢") {
+        // اختيار اسم المادة والمعلم حسب اللغة
+        const subjectName = lesson[currentLang].s;
+        const teacherName = lesson[currentLang].tr;
+
+        let status = totalMin >= eT ? d.ended : (totalMin >= sT ? d.active : d.wait);
+
+        if (totalMin >= sT && totalMin < eT) {
             activeFound = true;
-            const remMin = eT - curTotalMin - 1;
-            const remSec = 60 - curSec;
-            document.getElementById('active-p-title').innerText = `${index} PD: ${lesson.s.toUpperCase()}`;
-            document.getElementById('live-counter').innerText = `${String(remMin).padStart(2, '0')}:${String(remSec === 60 ? 0 : remSec).padStart(2, '0')}`;
-            document.getElementById('fill-bar').style.width = ((curTotalMin - sT) / (eT - sT) * 100) + "%";
-            document.getElementById('p-time-info').innerText = `Ends at ${slot.end}`;
+            const rMin = eT - totalMin - 1;
+            document.getElementById('active-p-title').innerText = d.now + subjectName;
+            document.getElementById('live-counter').innerText = `${String(rMin).padStart(2,'0')}:${String(60-sec).padStart(2,'0')}`;
+            document.getElementById('fill-bar').style.width = `${((totalMin-sT)/(eT-sT))*100}%`;
+            document.getElementById('p-time-info').innerText = (currentLang === 'ar' ? "تنتهي في " : "Ends at ") + slot.end;
         }
-
-        html += `<div class="period-card" style="${status === 'Active 🟢' ? 'border-left: 5px solid var(--accent); transform: scale(1.02);' : ''}">
-            <span style="font-weight:bold; color: var(--accent);">${index} pd</span>
-            <span>${lesson.s}</span>
-            <span class="teacher-info">${lesson.tr}</span>
-            <span style="color:var(--text-dim)">${slot.start} - ${slot.end}</span>
-            <span>${slot.dur}</span>
-            <span style="color:${status === 'Active 🟢' ? 'var(--accent)' : (status === 'Ended ✅' ? '#4ade80' : 'var(--white)')}">${status}</span>
+        html += `<div class="period-card" style="${totalMin >= sT && totalMin < eT ? 'border: 2px solid var(--accent);' : ''}">
+            <span>${i+1}</span><span>${subjectName}</span><span>${teacherName}</span><span>${slot.start}</span><span>${slot.dur}</span><span>${status}</span>
         </div>`;
     });
 
     if (!activeFound) {
-        document.getElementById('live-counter').innerText = "00:00";
-        document.getElementById('active-p-title').innerText = curTotalMin < (8*60+20) ? "BEFORE SCHOOL" : "SCHOOL ENDED";
+        let nextStart = new Date(); nextStart.setHours(8,30,0);
+        if (totalMin >= (15*60+11) || isWeekend) {
+            if(day === "Friday") nextStart.setDate(now.getDate()+3);
+            else if(day === "Saturday") nextStart.setDate(now.getDate()+2);
+            else nextStart.setDate(now.getDate()+1);
+        }
+        const diff = nextStart - now;
+        const h = Math.floor(diff/3600000);
+        const m = Math.floor((diff%3600000)/60000);
+        const s = Math.floor((diff%60000)/1000);
+        document.getElementById('active-p-title').innerText = d.nextSchool;
+        document.getElementById('live-counter').innerText = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
         document.getElementById('fill-bar').style.width = "0%";
+        document.getElementById('p-time-info').innerText = "";
     }
     document.getElementById('schedule-list').innerHTML = html;
 }
 
-setInterval(updateLive, 1000);
-updateLive();
+// ألوان الأزرار والموقع
+function nextBtnColor() {
+    document.body.classList.remove(...btnColors);
+    btnColorIdx = (btnColorIdx + 1) % btnColors.length;
+    document.body.classList.add(btnColors[btnColorIdx]);
+}
+function nextFullTheme() {
+    document.body.classList.remove(...fullThemes);
+    fullThemeIdx = (fullThemeIdx + 1) % fullThemes.length;
+    document.body.classList.add(fullThemes[fullThemeIdx]);
+}
+function toggleNightMode() { document.body.classList.toggle('light-mode'); }
+function scorePoint() {
+    score++;
+    document.getElementById('score-val').innerText = dictionary[currentLang].score + score;
+    document.getElementById('emoji-target').style.transform = `scale(1.4) rotate(${Math.random()*20-10}deg)`;
+    setTimeout(()=> document.getElementById('emoji-target').style.transform = "scale(1)", 100);
+}
+
+setInterval(update, 1000);
+update();
