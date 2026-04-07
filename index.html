@@ -16,10 +16,10 @@
             </div>
             
             <div class="controls-grid">
-                <button class="control-btn" onclick="nextBtnColor()" title="تغيير لون الأزرار">🔘</button>
-                <button class="control-btn" onclick="nextFullTheme()" title="تغيير لون الموقع">🎨</button>
-                <button class="control-btn" onclick="toggleNightMode()" title="وضع الإضاءة">🌓</button>
-                <button class="control-btn" onclick="toggleLanguage()" title="تغيير اللغة">🌐</button>
+                <button class="control-btn" id="btn-color-toggle" onclick="nextBtnColor()">🔘</button>
+                <button class="control-btn" id="btn-theme-toggle" onclick="nextFullTheme()">🎨</button>
+                <button class="control-btn" onclick="toggleNightMode()">🌓</button>
+                <button class="control-btn" onclick="toggleLanguage()">🌐</button>
             </div>
         </div>
 
@@ -28,27 +28,22 @@
             <p id="active-p-title">جاري التحميل...</p>
             <h2 id="live-counter">00:00:00</h2>
             <div class="progress-track"><div id="fill-bar"></div></div>
-            <p id="p-time-info">--</p>
-        </div>
-
-        <div id="weekend-section" class="box" style="display:none;">
-            <h3 id="weekend-msg">عطلة سعيدة! ✨</h3>
-            <div id="game-container">
-                <p id="game-instruction">اصطاد الإيموجي!</p>
-                <div id="emoji-target" onclick="scorePoint()">🎮</div>
-                <p id="score-val">النقاط: 0</p>
-            </div>
         </div>
 
         <div id="schedule-section">
             <div class="labels-grid">
-                <span id="lbl-p">الحصة</span><span id="lbl-s">المادة</span><span id="lbl-tr">المعلم</span><span id="lbl-t">الوقت</span><span id="lbl-d">المدة</span><span id="lbl-st">الحالة</span>
+                <span id="lbl-p">الحصة</span>
+                <span id="lbl-s">المادة</span>
+                <span id="lbl-tr">المعلم</span>
+                <span id="lbl-t">الوقت</span>
+                <span id="lbl-d">المدة</span>
+                <span id="lbl-st">الحالة</span>
             </div>
             <div id="schedule-list"></div>
         </div>
 
         <div class="footer-info">
-            <span id="footer-text">NextPeriod © - تحديث تلقائي كل ثانية</span>
+            <span id="footer-text">NextPeriod ©️ - تحديث تلقائي كل ثانية</span>
             <br><br>
             By: <a href="https://github.com/ahmedassaidy7-hash" target="_blank" class="my-link">ahmedassaidy7-hash</a>
         </div>
