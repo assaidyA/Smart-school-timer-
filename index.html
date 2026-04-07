@@ -6,52 +6,53 @@
     <title>NextPeriod | ASSAIDY</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="bg-default btn-default">
     <div class="main-wrapper">
         <div class="box header-box">
-            <div class="header-container">
-                <div class="center-branding">
-                    <div class="logo-row">
-                        <span class="big-clock">🕒</span>
-                        <h1>NextPeriod</h1>
-                    </div>
-                    <p class="tagline">Smart Bell Schedule Countdown</p>
-                    <p class="user-id">ASSAIDY</p>
-                </div>
+            <div class="center-branding">
+                <h1 id="nav-title">نيكسيت بيريود</h1>
+                <p id="nav-tagline">مؤقت الجرس الذكي</p>
+                <p class="user-id">ASSAIDY</p>
             </div>
             
-            <div class="bottom-left-controls">
-                <button class="control-btn" onclick="nextTheme()" title="تغيير الثيم">🎨</button>
-                <button class="control-btn" onclick="toggleNightMode()" title="الوضع الليلي">🌙</button>
-                <button class="control-btn" onclick="toggleLanguage()" title="اللغة">🌐</button>
+            <div class="controls-grid">
+                <button class="control-btn" onclick="nextBtnColor()" title="تغيير لون الأزرار">🔘</button>
+                <button class="control-btn" onclick="nextFullTheme()" title="تغيير لون الموقع">🎨</button>
+                <button class="control-btn" onclick="toggleNightMode()" title="وضع الإضاءة">🌓</button>
+                <button class="control-btn" onclick="toggleLanguage()" title="تغيير اللغة">🌐</button>
             </div>
         </div>
 
         <div class="box main-timer">
-            <p id="current-day-display"></p>
-            <p id="active-p-title">LOADING...</p>
-            <h2 id="live-counter">00:00</h2>
+            <p id="current-day-display">--</p>
+            <p id="active-p-title">جاري التحميل...</p>
+            <h2 id="live-counter">00:00:00</h2>
             <div class="progress-track"><div id="fill-bar"></div></div>
-            <p id="p-time-info">--:--</p>
+            <p id="p-time-info">--</p>
         </div>
 
-        <div class="labels-grid">
-            <span id="lbl-p">Period</span>
-            <span id="lbl-s">Subject</span>
-            <span id="lbl-tr">Teacher & Room</span>
-            <span id="lbl-t">Time</span>
-            <span id="lbl-d">Dur</span>
-            <span id="lbl-st">Status</span>
+        <div id="weekend-section" class="box" style="display:none;">
+            <h3 id="weekend-msg">عطلة سعيدة! ✨</h3>
+            <div id="game-container">
+                <p id="game-instruction">اصطاد الإيموجي!</p>
+                <div id="emoji-target" onclick="scorePoint()">🎮</div>
+                <p id="score-val">النقاط: 0</p>
+            </div>
         </div>
-        <div id="schedule-list"></div>
+
+        <div id="schedule-section">
+            <div class="labels-grid">
+                <span id="lbl-p">الحصة</span><span id="lbl-s">المادة</span><span id="lbl-tr">المعلم</span><span id="lbl-t">الوقت</span><span id="lbl-d">المدة</span><span id="lbl-st">الحالة</span>
+            </div>
+            <div id="schedule-list"></div>
+        </div>
 
         <div class="footer-info">
-            NextPeriod © - Auto-updates every second.
-            <br>
-            By: <a href="https://github.com/ahmedassaidy7-hash" target="_blank" class="my-link" style="color: #4ecca3; text-decoration: none; font-weight: bold;">ahmedassaidy7-hash</a>
+            <span id="footer-text">NextPeriod © - تحديث تلقائي كل ثانية</span>
+            <br><br>
+            By: <a href="https://github.com/ahmedassaidy7-hash" target="_blank" class="my-link">ahmedassaidy7-hash</a>
         </div>
     </div>
-
     <script src="app.js"></script>
 </body>
 </html>
