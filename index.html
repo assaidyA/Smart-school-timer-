@@ -1,21 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NextPeriod | ASSAIDY</title>
     <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
 <body>
-    <div id="auth-container" style="background: rgba(26, 26, 46, 0.95); padding: 25px; border-radius: 15px; margin: 20px auto; max-width: 350px; border: 1px solid #4ecca3; text-align: center; font-family: sans-serif;">
-        <h3 style="color: #4ecca3; margin-bottom: 15px;">NextPeriod Login</h3>
-        <input type="email" id="auth-email" placeholder="البريد الإلكتروني" style="width: 90%; padding: 10px; margin-bottom: 10px; border-radius: 5px; border: 1px solid #333; background: #0f0f1b; color: white;">
-        <input type="password" id="auth-password" placeholder="كلمة المرور" style="width: 90%; padding: 10px; margin-bottom: 20px; border-radius: 5px; border: 1px solid #333; background: #0f0f1b; color: white;">
-        <div style="display: flex; gap: 10px; justify-content: center;">
-            <button onclick="handleLogin()" style="background: #4ecca3; color: #1a1a2e; border: none; padding: 10px 20px; border-radius: 5px; font-weight: bold; cursor: pointer;">دخول</button>
-            <button onclick="handleSignUp()" style="background: transparent; color: #4ecca3; border: 1px solid #4ecca3; padding: 10px 20px; border-radius: 5px; cursor: pointer;">تسجيل جديد</button>
-        </div>
-    </div>
     <div class="main-wrapper">
         <div class="box header-box">
             <div class="header-container">
@@ -27,11 +18,12 @@
                     <p class="tagline">Smart Bell Schedule Countdown</p>
                     <p class="user-id">ASSAIDY</p>
                 </div>
-                <div class="bottom-left-controls">
-                    <button class="control-btn" onclick="nextTheme()" title="تغيير الثيم">🎨</button>
-                    <button class="control-btn" onclick="toggleNightMode()" title="الوضع الليلي">🌙</button>
-                    <button class="control-btn" onclick="toggleLanguage()" title="اللغة">🌐</button>
-                </div>
+            </div>
+            
+            <div class="bottom-left-controls">
+                <button class="control-btn" onclick="nextTheme()" title="تغيير الثيم">🎨</button>
+                <button class="control-btn" onclick="toggleNightMode()" title="الوضع الليلي">🌙</button>
+                <button class="control-btn" onclick="toggleLanguage()" title="اللغة">🌐</button>
             </div>
         </div>
 
@@ -54,9 +46,12 @@
         <div id="schedule-list"></div>
 
         <div class="footer-info">
-            NextPeriod ©️ - Auto-updates every second. 
-            Github: <a href="https://github.com/ahmedassaidy7-hash" target="_blank" class="my-link">ahmedassaidy7-hash</a>
+            NextPeriod © - Auto-updates every second.
+            <br>
+            By: <a href="https://github.com/ahmedassaidy7-hash" target="_blank" class="my-link" style="color: #4ecca3; text-decoration: none; font-weight: bold;">ahmedassaidy7-hash</a>
         </div>
     </div>
+
     <script src="app.js"></script>
+</body>
 </html>
