@@ -19,20 +19,18 @@ const dictionary = {
     }
 };
 
-// مواعيد الجرس الدقيقة تشمل الحصة 0 والاجتماع
 const bellTimes = [
-    { start: "07:15", end: "08:15", dur: "60m" }, // 0 pd
-    { start: "08:20", end: "08:30", dur: "10m" }, // Community Meeting
-    { start: "08:30", end: "09:27", dur: "57m" }, // 1st pd
-    { start: "09:29", end: "10:26", dur: "57m" }, // 2nd pd
-    { start: "10:28", end: "11:25", dur: "57m" }, // 3rd pd
-    { start: "11:27", end: "12:24", dur: "57m" }, // 4th pd
-    { start: "12:26", end: "13:11", dur: "45m" }, // 5th pd
-    { start: "13:13", end: "14:10", dur: "57m" }, // 6th pd
-    { start: "14:12", end: "15:11", dur: "59m" }  // 7th pd
+    { start: "07:15", end: "08:15", dur: "60m" }, // الحصة 0
+    { start: "08:20", end: "08:30", dur: "10m" }, // Meeting
+    { start: "08:30", end: "09:27", dur: "57m" }, // 1
+    { start: "09:29", end: "10:26", dur: "57m" }, // 2
+    { start: "10:28", end: "11:25", dur: "57m" }, // 3
+    { start: "11:27", end: "12:24", dur: "57m" }, // 4
+    { start: "12:26", end: "13:11", dur: "45m" }, // 5 (Lunch)
+    { start: "13:13", end: "14:10", dur: "57m" }, // 6
+    { start: "14:12", end: "15:11", dur: "59m" }  // 7
 ];
 
-[span_0](start_span)// الجدول الدراسي مع الغرف[span_0](end_span)
 const schedule = {
     "Monday": [
         { ar: {s:"اجتماع مجتمعي", tr:"IST"}, en: {s:"Community Mtg", tr:"IST"} },
@@ -61,7 +59,7 @@ const schedule = {
         { ar: {s:"اجتماع مجتمعي", tr:"IST"}, en: {s:"Community Mtg", tr:"IST"} },
         { ar: {s:"AP Eng Lang 3", tr:"Rice | 272"}, en: {s:"AP Eng Lang 3", tr:"Rice | 272"} },
         { ar: {s:"أمريكا والعالم", tr:"Brodowski | 273"}, en: {s:"US World", tr:"Brodowski | 273"} },
-        { ar: {s:"Junior Post Sec", tr:"Valentine | 267"}, en: {s:"Junior Post Sec", tr:"Valentine | 267"} },
+        { ar: {s:"توجيه مهني", tr:"Valentine | 267"}, en: {s:"Junior Post Sec", tr:"Valentine | 267"} },
         { ar: {s:"علوم الأرض", tr:"McMurray | CAF"}, en: {s:"Earth Sci", tr:"McMurray | CAF"} },
         { ar: {s:"تعليم موجه", tr:"Irizarry | 179"}, en: {s:"Targeted", tr:"Irizarry | 179"} },
         { ar: {s:"جبر 2", tr:"Lam | 276"}, en: {s:"Algebra 2", tr:"Lam | 276"} },
@@ -143,8 +141,10 @@ function update() {
             document.getElementById('live-counter').innerText = `${String(rMin).padStart(2,'0')}:${String(60-sec).padStart(2,'0')}`;
             document.getElementById('fill-bar').style.width = `${((totalMin-sT)/(eT-sT))*100}%`;
         }
+        
+        let pLabel = i === 0 ? "0" : (i === 1 ? "Mtg" : i-1);
         html += `<div class="period-card" style="${totalMin >= sT && totalMin < eT ? 'border: 2px solid var(--accent);' : ''}">
-            <span>${i === 0 ? '0' : (i === 1 ? 'Mtg' : i-1)}</span><span>${subjectName}</span><span>${teacherName}</span><span>${slot.start}</span><span>${slot.dur}</span><span>${status}</span>
+            <span>${pLabel}</span><span>${subjectName}</span><span>${teacherName}</span><span>${slot.start}</span><span>${slot.dur}</span><span>${status}</span>
         </div>`;
     });
 
