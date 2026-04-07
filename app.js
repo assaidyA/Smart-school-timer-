@@ -1,6 +1,6 @@
 // --- كود الربط بـ Supabase (رقم 1) ---
 const SUPABASE_URL = 'https://pdexgzbndcsxsatpbcpw.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_g_9X2uzsGemmIroygWxLg_rcvVMf9_qXfA2'; // تأكد أن هذا هو المفتاح الكامل من صورتك
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBkZXhnemJuZGNzeHNhdHBiY3B3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU1MzE3MTksImV4cCI6MjA5MTEwNzcxOX0.nxnX6TVnlYMBVpAt7t7so4VnavXlOgqikKW86j_xneQ
 const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // دالة تسجيل الدخول
