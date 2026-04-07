@@ -1,48 +1,40 @@
 :root {
-    --primary-bg: #050510;
-    --card-bg: #11112b;
-    --accent: #6366f1;
-    --white: #ffffff;
-    --text-dim: #888;
+    --accent: #3b82f6;
+    --primary-bg: #050b18;
+    --card-bg: #0f172a;
+    --text: #ffffff;
 }
 
-/* Themes */
-[data-theme="green"] { --accent: #22c55e; --primary-bg: #020a05; --card-bg: #0d1a10; }
-[data-theme="pink"] { --accent: #ec4899; --primary-bg: #0a0206; --card-bg: #1a0d15; }
-[data-theme="gold"] { --accent: #f59e0b; --primary-bg: #0a0702; --card-bg: #1a140d; }
-[data-theme="cyan"] { --accent: #06b6d4; --primary-bg: #02090a; --card-bg: #0d181a; }
+/* ألوان الأزرار */
+.btn-default { --accent: #3b82f6; }
+.btn-green { --accent: #10b981; }
+.btn-red { --accent: #ef4444; }
+.btn-gold { --accent: #f59e0b; }
+
+/* ألوان الموقع */
+.bg-default { --primary-bg: #050b18; --card-bg: #0f172a; }
+.bg-dark-blue { --primary-bg: #0a192f; --card-bg: #112240; }
+.bg-dark-green { --primary-bg: #020d0a; --card-bg: #052219; }
+.bg-dark-red { --primary-bg: #110303; --card-bg: #220505; }
 
 .light-mode {
-    --primary-bg: #f4f4f9;
-    --card-bg: #ffffff;
-    --white: #1a1a1a;
-    --text-dim: #666;
+    --primary-bg: #f3f4f6; --card-bg: #ffffff; --text: #1f2937;
 }
 
-body { background: var(--primary-bg); color: var(--white); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 20px; transition: 0.4s; margin: 0; }
-.box { background: var(--card-bg); border-radius: 30px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 25px; padding: 40px; text-align: center; }
-.big-clock { font-size: 80px; display: block; margin-bottom: 10px; }
-.user-id { color: var(--accent); font-weight: bold; font-size: 20px; letter-spacing: 5px; margin-top: 10px; }
-.control-btn { background: rgba(255,255,255,0.1); border: none; padding: 12px; border-radius: 12px; cursor: pointer; color: var(--white); font-size: 20px; margin: 0 5px; transition: 0.3s; }
-.control-btn:hover { background: var(--accent); }
+body { background: var(--primary-bg); color: var(--text); transition: 0.5s; font-family: sans-serif; margin: 0; padding: 20px; text-align: center; }
+.main-wrapper { max-width: 900px; margin: auto; }
+.box { background: var(--card-bg); border-radius: 20px; padding: 25px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.05); }
 
-#live-counter { font-size: 100px; font-weight: 900; margin: 10px 0; }
-.progress-track { background: rgba(255,255,255,0.05); height: 12px; border-radius: 10px; width: 80%; margin: 25px auto; overflow: hidden; }
-#fill-bar { height: 100%; background: var(--accent); width: 0%; transition: 0.4s; }
+#live-counter { font-size: clamp(40px, 8vw, 80px); font-weight: 900; color: var(--accent); text-shadow: 0 0 20px var(--accent); margin: 10px 0; }
+.progress-track { background: rgba(255,255,255,0.1); height: 10px; border-radius: 10px; width: 80%; margin: 15px auto; overflow: hidden; }
+#fill-bar { height: 100%; background: var(--accent); width: 0%; transition: 0.5s; box-shadow: 0 0 10px var(--accent); }
 
-/* توزيع الأعمدة الستة */
-.period-card, .labels-grid { 
-    display: grid; 
-    grid-template-columns: 0.7fr 1.8fr 2.2fr 1.8fr 0.7fr 1fr; 
-    gap: 15px; 
-    align-items: center; 
-    text-align: left; 
-}
+.controls-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 15px; }
+.control-btn { background: var(--accent); color: white; border: none; padding: 12px; border-radius: 12px; cursor: pointer; font-size: 20px; }
 
-.period-card { background: var(--card-bg); border-radius: 15px; padding: 20px 25px; margin-bottom: 10px; border: 1px solid rgba(255,255,255,0.03); transition: 0.3s; }
-.labels-grid { padding: 0 25px 15px; color: var(--text-dim); font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
+.period-card, .labels-grid { display: grid; grid-template-columns: 0.5fr 1.5fr 1.5fr 1.5fr 0.5fr 1fr; gap: 10px; padding: 15px; align-items: center; }
+.period-card { background: var(--card-bg); border-radius: 15px; margin-bottom: 10px; border: 1px solid rgba(255,255,255,0.03); font-size: 14px; }
+.labels-grid { font-weight: bold; opacity: 0.6; font-size: 12px; }
 
-.teacher-info { color: var(--accent); font-size: 0.9em; font-weight: 500; }
-.my-link { color: var(--accent); text-decoration: none; font-weight: bold; transition: 0.3s; }
-.my-link:hover { text-decoration: underline; opacity: 0.8; }
-.footer-info { text-align: center; margin-top: 40px; padding: 20px; font-size: 13px; color: var(--text-dim); border-top: 1px solid rgba(255,255,255,0.05); }
+#emoji-target { font-size: 60px; cursor: pointer; transition: 0.1s; margin: 20px; display: inline-block; }
+.my-link { color: var(--accent); text-decoration: none; font-weight: bold; border: 1px solid var(--accent); padding: 5px 15px; border-radius: 20px; }
