@@ -1,3 +1,42 @@
+// --- كود الربط بـ Supabase (رقم 1) ---
+const SUPABASE_URL = 'https://pdexgzbndcsxsatpbcpw.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_g_9X2uzsGemmIroygWxLg_rcvVMf9_qXfA2'; // تأكد أن هذا هو المفتاح الكامل من صورتك
+const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// دالة تسجيل الدخول
+async function handleLogin() {
+    const email = document.getElementById('auth-email').value;
+    const password = document.getElementById('auth-password').value;
+    
+    if(!email || !password) return alert("يرجى إدخال البريد وكلمة المرور");
+
+    const { data, error } = await _supabase.auth.signInWithPassword({ email, password });
+    
+    if (error) {
+        alert("خطأ في الدخول: " + error.message);
+    } else {
+        alert("تم الدخول بنجاح! أهلاً بك.");
+        document.getElementById('auth-container').style.display = 'none';
+        // سيتم إضافة كود جلب الجدول هنا لاحقاً
+    }
+}
+
+// دالة إنشاء حساب جديد
+async function handleSignUp() {
+    const email = document.getElementById('auth-email').value;
+    const password = document.getElementById('auth-password').value;
+
+    if(!email || !password) return alert("يرجى إدخال البيانات المطلوبة");
+
+    const { data, error } = await _supabase.auth.signUp({ email, password });
+    
+    if (error) {
+        alert("خطأ في التسجيل: " + error.message);
+    } else {
+        alert("تم إرسال رسالة تأكيد لبريدك الإلكتروني! يرجى تفعيل الحساب.");
+    }
+}
+// --- نهاية كود Supabase ---
 let currentLang = 'en';
 let themeIndex = 0;
 const themeNames = ['default', 'green', 'pink', 'gold', 'cyan'];
