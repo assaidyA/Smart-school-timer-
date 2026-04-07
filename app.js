@@ -1,93 +1,130 @@
 let currentLang = 'ar';
 let btnColorIdx = 0;
 let fullThemeIdx = 0;
-let score = 0;
 
 const btnColors = ['btn-default', 'btn-green', 'btn-red', 'btn-gold'];
 const fullThemes = ['bg-default', 'bg-dark-blue', 'bg-dark-green', 'bg-dark-red'];
 
 const dictionary = {
     ar: {
-        title: "نيكسيت بيريود", tagline: "مؤقت الجرس الذكي", p: "الحصة", s: "المادة", tr: "المعلم والقاعة", t: "الوقت", d: "المدة", st: "الحالة",
-        weekend: "عطلة سعيدة! ✨", game: "اصطاد الإيموجي!", score: "النقاط: ", footer: "تحديث تلقائي كل ثانية", 
-        nextSchool: "المتبقي للمدرسة: ", now: "الحالية: ", ended: "انتهت ✅", active: "جارية 🟢", wait: "انتظار ⏳"
+        title: "نيكسيت بيريود", tagline: "مؤقت الجرس الذكي", p: "الحصة", s: "المادة", tr: "المعلم", t: "الوقت", d: "المدة", st: "الحالة",
+        now: "الحالية: ", next: "القادمة: ", ended: "انتهت ✅", active: "جارية 🟢", wait: "انتظار ⏳", schoolStart: "بداية الدوام 🔔",
+        footer: "NextPeriod ©️ - تحديث تلقائي كل ثانية"
     },
     en: {
-        title: "NextPeriod", tagline: "Smart Bell Schedule Countdown", p: "Period", s: "Subject", tr: "Teacher & Room", t: "Time", d: "Dur", st: "Status",
-        weekend: "Happy Weekend! ✨", game: "Tap the Emoji!", score: "Score: ", footer: "Auto-updates every second", 
-        nextSchool: "Next School in: ", now: "Current: ", ended: "Ended ✅", active: "Active 🟢", wait: "Wait ⏳"
+        title: "NextPeriod", tagline: "Smart Bell Schedule Countdown", p: "Period", s: "Subject", tr: "Teacher", t: "Time", d: "Dur", st: "Status",
+        now: "Current: ", next: "Next: ", ended: "Ended ✅", active: "Active 🟢", wait: "Wait ⏳", schoolStart: "School Starts 🔔",
+        footer: "NextPeriod ©️ - Auto-updates every second"
     }
 };
 
 const bellTimes = [
-    { start: "07:15", end: "08:15", dur: "60m" }, // الحصة 0
-    { start: "08:20", end: "08:30", dur: "10m" }, // Meeting
-    { start: "08:30", end: "09:27", dur: "57m" }, // 1
-    { start: "09:29", end: "10:26", dur: "57m" }, // 2
-    { start: "10:28", end: "11:25", dur: "57m" }, // 3
-    { start: "11:27", end: "12:24", dur: "57m" }, // 4
-    { start: "12:26", end: "13:11", dur: "45m" }, // 5 (Lunch)
-    { start: "13:13", end: "14:10", dur: "57m" }, // 6
-    { start: "14:12", end: "15:11", dur: "59m" }  // 7
+    { start: "07:15", end: "08:15", dur: "60m" },
+    { start: "08:20", end: "08:30", dur: "10m" },
+    { start: "08:30", end: "09:27", dur: "57m" },
+    { start: "09:29", end: "10:26", dur: "57m" },
+    { start: "10:28", end: "11:25", dur: "57m" },
+    { start: "11:27", end: "12:24", dur: "57m" },
+    { start: "12:26", end: "13:11", dur: "45m" },
+    { start: "13:13", end: "14:10", dur: "57m" },
+    { start: "14:12", end: "15:11", dur: "59m" }
 ];
 
 const schedule = {
-    "Monday": [
-        { ar: {s:"اجتماع مجتمعي", tr:"IST"}, en: {s:"Community Mtg", tr:"IST"} },
-        { ar: {s:"اجتماع مجتمعي", tr:"IST"}, en: {s:"Community Mtg", tr:"IST"} },
-        { ar: {s:"أمريكا والعالم", tr:"Brodowski | 273"}, en: {s:"US World", tr:"Brodowski | 273"} },
-        { ar: {s:"AP Eng Lang 3", tr:"Rice | 272"}, en: {s:"AP Eng Lang 3", tr:"Rice | 272"} },
-        { ar: {s:"جبر 2", tr:"Lam | 276"}, en: {s:"Algebra 2", tr:"Lam | 276"} },
-        { ar: {s:"تعليم موجه", tr:"Irizarry | 179"}, en: {s:"Targeted", tr:"Irizarry | 179"} },
-        { ar: {s:"غداء", tr:"CAF"}, en: {s:"Lunch", tr:"CAF"} },
-        { ar: {s:"علوم الأرض", tr:"McMurray | 271"}, en: {s:"Earth Sci", tr:"McMurray | 271"} },
-        { ar: {s:"تربية بدنية", tr:"SHEHATA | 183G"}, en: {s:"PE", tr:"SHEHATA | 183G"} }
-    ],
     "Tuesday": [
-        { ar: {s:"اجتماع مجتمعي", tr:"IST"}, en: {s:"Community Mtg", tr:"IST"} },
-        { ar: {s:"اجتماع مجتمعي", tr:"IST"}, en: {s:"Community Mtg", tr:"IST"} },
-        { ar: {s:"جبر 2", tr:"Lam | 276"}, en: {s:"Algebra 2", tr:"Lam | 276"} },
-        { ar: {s:"تعليم موجه", tr:"Irizarry | 179"}, en: {s:"Targeted", tr:"Irizarry | 179"} },
-        { ar: {s:"إرشاد", tr:"Sterner | 178"}, en: {s:"Advisory", tr:"Sterner | 178"} },
-        { ar: {s:"أمريكا والعالم", tr:"Brodowski | 273"}, en: {s:"US World", tr:"Brodowski | 273"} },
-        { ar: {s:"غداء", tr:"CAF"}, en: {s:"Lunch", tr:"CAF"} },
-        { ar: {s:"AP Eng Lang 3", tr:"Rice | 272"}, en: {s:"AP Eng Lang 3", tr:"Rice | 272"} },
-        { ar: {s:"علوم الأرض", tr:"McMurray | 271"}, en: {s:"Earth Sci", tr:"McMurray | 271"} }
-    ],
-    "Wednesday": [
-        { ar: {s:"اجتماع مجتمعي", tr:"IST"}, en: {s:"Community Mtg", tr:"IST"} },
-        { ar: {s:"اجتماع مجتمعي", tr:"IST"}, en: {s:"Community Mtg", tr:"IST"} },
-        { ar: {s:"AP Eng Lang 3", tr:"Rice | 272"}, en: {s:"AP Eng Lang 3", tr:"Rice | 272"} },
-        { ar: {s:"أمريكا والعالم", tr:"Brodowski | 273"}, en: {s:"US World", tr:"Brodowski | 273"} },
-        { ar: {s:"توجيه مهني", tr:"Valentine | 267"}, en: {s:"Junior Post Sec", tr:"Valentine | 267"} },
-        { ar: {s:"علوم الأرض", tr:"McMurray | CAF"}, en: {s:"Earth Sci", tr:"McMurray | CAF"} },
-        { ar: {s:"تعليم موجه", tr:"Irizarry | 179"}, en: {s:"Targeted", tr:"Irizarry | 179"} },
-        { ar: {s:"جبر 2", tr:"Lam | 276"}, en: {s:"Algebra 2", tr:"Lam | 276"} },
-        { ar: {s:"علوم الأرض", tr:"McMurray | 271"}, en: {s:"Earth Sci", tr:"McMurray | 271"} }
-    ],
-    "Thursday": [
-        { ar: {s:"اجتماع مجتمعي", tr:"IST"}, en: {s:"Community Mtg", tr:"IST"} },
-        { ar: {s:"اجتماع مجتمعي", tr:"IST"}, en: {s:"Community Mtg", tr:"IST"} },
-        { ar: {s:"تعليم موجه", tr:"Irizarry | 179"}, en: {s:"Targeted", tr:"Irizarry | 179"} },
-        { ar: {s:"جبر 2", tr:"Lam | 276"}, en: {s:"Algebra 2", tr:"Lam | 276"} },
-        { ar: {s:"AP Eng Lang 3", tr:"Rice | 272"}, en: {s:"AP Eng Lang 3", tr:"Rice | 272"} },
-        { ar: {s:"أمريكا والعالم", tr:"Brodowski | 273"}, en: {s:"US World", tr:"Brodowski | 273"} },
-        { ar: {s:"غداء", tr:"CAF"}, en: {s:"Lunch", tr:"CAF"} },
-        { ar: {s:"علوم الأرض", tr:"McMurray | 271"}, en: {s:"Earth Sci", tr:"McMurray | 271"} },
-        { ar: {s:"تربية بدنية", tr:"SHEHATA | 183G"}, en: {s:"PE", tr:"SHEHATA | 183G"} }
-    ],
-    "Friday": [
-        { ar: {s:"اجتماع مجتمعي", tr:"IST"}, en: {s:"Community Mtg", tr:"IST"} },
-        { ar: {s:"اجتماع مجتمعي", tr:"IST"}, en: {s:"Community Mtg", tr:"IST"} },
-        { ar: {s:"أمريكا والعالم", tr:"Brodowski | 273"}, en: {s:"US World", tr:"Brodowski | 273"} },
-        { ar: {s:"جبر 2", tr:"Lam | 276"}, en: {s:"Algebra 2", tr:"Lam | 276"} },
-        { ar: {s:"تعليم موجه", tr:"Irizarry | 179"}, en: {s:"Targeted", tr:"Irizarry | 179"} },
-        { ar: {s:"إرشاد", tr:"Sterner | 178"}, en: {s:"Advisory", tr:"Sterner | 178"} },
-        { ar: {s:"غداء", tr:"CAF"}, en: {s:"Lunch", tr:"CAF"} },
-        { ar: {s:"علوم الأرض", tr:"McMurray | 271"}, en: {s:"Earth Sci", tr:"McMurray | 271"} },
-        { ar: {s:"AP Eng Lang 3", tr:"Rice | 272"}, en: {s:"AP Eng Lang 3", tr:"Rice | 272"} }
+        { ar: {s:"فطور 🍳", tr:"CAF"}, en: {s:"Breakfast 🍳", tr:"CAF"} },
+        { ar: {s:"اجتماع مجتمعي 🤝", tr:"IST"}, en: {s:"Community Mtg 🤝", tr:"IST"} },
+        { ar: {s:"جبر 2 📐", tr:"Lam | 276"}, en: {s:"Algebra 2 📐", tr:"Lam | 276"} },
+        { ar: {s:"تعليم موجه 🎯", tr:"Irizarry | 179"}, en: {s:"Targeted 🎯", tr:"Irizarry | 179"} },
+        { ar: {s:"إرشاد 📋", tr:"Sterner | 178"}, en: {s:"Advisory 📋", tr:"Sterner | 178"} },
+        { ar: {s:"أمريكا والعالم 🌎", tr:"Brodowski | 273"}, en: {s:"US World 🌎", tr:"Brodowski | 273"} },
+        { ar: {s:"غداء 🍱", tr:"CAF"}, en: {s:"Lunch 🍱", tr:"CAF"} },
+        { ar: {s:"AP Eng Lang 3 📚", tr:"Rice | 272"}, en: {s:"AP Eng Lang 3 📚", tr:"Rice | 272"} },
+        { ar: {s:"علوم الأرض 🌋", tr:"McMurray | 271"}, en: {s:"Earth Sci 🌋", tr:"McMurray | 271"} }
     ]
 };
+
+function update() {
+    const now = new Date();
+    const dayName = now.toLocaleDateString('en-US', { weekday: 'long' });
+    const currentTotalSec = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
+    const d = dictionary[currentLang];
+    
+    document.getElementById('current-day-display').innerText = now.toLocaleDateString(currentLang === 'ar' ? 'ar-SA' : 'en-US', { weekday: 'long' });
+
+    let lessons = schedule[dayName] || [];
+    let html = "";
+    let targetSec = null;
+    let targetTitle = "";
+
+    for (let i = 0; i < bellTimes.length; i++) {
+        const slot = bellTimes[i];
+        const lesson = lessons[i] || { ar: {s:"--", tr:"--"}, en: {s:"--", tr:"--"} };
+        
+        const [sh, sm] = slot.start.split(":").map(Number);
+        const [eh, em] = slot.end.split(":").map(Number);
+        const sSec = sh * 3600 + sm * 60;
+        const eSec = eh * 3600 + em * 60;
+
+        if (currentTotalSec >= sSec && currentTotalSec < eSec) {
+            targetSec = eSec - currentTotalSec;
+            targetTitle = d.now + lesson[currentLang].s;
+            document.getElementById('fill-bar').style.width = ((currentTotalSec - sSec) / (eSec - sSec) * 100) + "%";
+        } 
+        else if (currentTotalSec < sSec && targetSec === null) {
+            targetSec = sSec - currentTotalSec;
+            targetTitle = d.next + lesson[currentLang].s;
+            document.getElementById('fill-bar').style.width = "0%";
+        }
+
+        let status = currentTotalSec >= eSec ? d.ended : (currentTotalSec >= sSec ? d.active : d.wait);
+        let pLabel = i === 0 ? "0" : (i === 1 ? "Mtg" : i-1);
+        
+        html += `<div class="period-card" style="${currentTotalSec >= sSec && currentTotalSec < eSec ? 'border: 2px solid var(--accent);' : ''}">
+            <span style="color:var(--accent); font-weight:bold;">${pLabel}</span>
+            <span style="font-weight:600;">${lesson[currentLang].s}</span>
+            <span>${lesson[currentLang].tr}</span>
+            <span style="direction:ltr;">${slot.start}-${slot.end}</span>
+            <span>${slot.dur}</span>
+            <span>${status}</span>
+        </div>`;
+    }
+
+    if (targetSec === null) {
+        const firstStart = bellTimes[0].start.split(":");
+        const schoolStartSec = (parseInt(firstStart[0]) * 3600) + (parseInt(firstStart[1]) * 60);
+        targetSec = (86400 - currentTotalSec) + schoolStartSec;
+        targetTitle = d.schoolStart;
+        document.getElementById('fill-bar').style.width = "100%";
+    }
+
+    const h = Math.floor(targetSec / 3600);
+    const m = Math.floor((targetSec % 3600) / 60);
+    const s = targetSec % 60;
+    
+    document.getElementById('active-p-title').innerText = targetTitle;
+    document.getElementById('live-counter').innerText = 
+        `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+
+    document.getElementById('schedule-list').innerHTML = html;
+}
+
+// أصلحنا هنا دوال الألوان لتعمل فوراً
+function nextBtnColor() { 
+    document.body.classList.remove(...btnColors);
+    btnColorIdx = (btnColorIdx + 1) % btnColors.length;
+    document.body.classList.add(btnColors[btnColorIdx]);
+}
+
+function nextFullTheme() {
+    document.body.classList.remove(...fullThemes);
+    fullThemeIdx = (fullThemeIdx + 1) % fullThemes.length;
+    document.body.classList.add(fullThemes[fullThemeIdx]);
+}
+
+function toggleNightMode() { 
+    document.body.classList.toggle('light-mode'); 
+}
 
 function toggleLanguage() {
     currentLang = currentLang === 'ar' ? 'en' : 'ar';
@@ -101,75 +138,9 @@ function toggleLanguage() {
     document.getElementById('lbl-t').innerText = d.t;
     document.getElementById('lbl-d').innerText = d.d;
     document.getElementById('lbl-st').innerText = d.st;
-    document.getElementById('weekend-msg').innerText = d.weekend;
-    document.getElementById('game-instruction').innerText = d.game;
     document.getElementById('footer-text').innerText = d.footer;
     update();
 }
-
-function update() {
-    const now = new Date();
-    const day = now.toLocaleDateString('en-US', { weekday: 'long' });
-    const totalMin = now.getHours() * 60 + now.getMinutes();
-    const sec = now.getSeconds();
-    const d = dictionary[currentLang];
-
-    const isWeekend = (day === "Saturday" || day === "Sunday");
-    document.getElementById('schedule-section').style.display = isWeekend ? 'none' : 'block';
-    document.getElementById('weekend-section').style.display = isWeekend ? 'block' : 'none';
-
-    document.getElementById('current-day-display').innerText = now.toLocaleDateString(currentLang === 'ar' ? 'ar-SA' : 'en-US', { weekday: 'long' });
-
-    let activeFound = false;
-    const lessons = schedule[day] || [];
-    let html = "";
-
-    lessons.forEach((lesson, i) => {
-        const slot = bellTimes[i]; if(!slot) return;
-        const [sh, sm] = slot.start.split(":").map(Number);
-        const [eh, em] = slot.end.split(":").map(Number);
-        const sT = sh*60+sm; const eT = eh*60+em;
-
-        const subjectName = lesson[currentLang].s;
-        const teacherName = lesson[currentLang].tr;
-        let status = totalMin >= eT ? d.ended : (totalMin >= sT ? d.active : d.wait);
-
-        if (totalMin >= sT && totalMin < eT) {
-            activeFound = true;
-            const rMin = eT - totalMin - 1;
-            document.getElementById('active-p-title').innerText = d.now + subjectName;
-            document.getElementById('live-counter').innerText = `${String(rMin).padStart(2,'0')}:${String(60-sec).padStart(2,'0')}`;
-            document.getElementById('fill-bar').style.width = `${((totalMin-sT)/(eT-sT))*100}%`;
-        }
-        
-        let pLabel = i === 0 ? "0" : (i === 1 ? "Mtg" : i-1);
-        html += `<div class="period-card" style="${totalMin >= sT && totalMin < eT ? 'border: 2px solid var(--accent);' : ''}">
-            <span>${pLabel}</span><span>${subjectName}</span><span>${teacherName}</span><span>${slot.start}</span><span>${slot.dur}</span><span>${status}</span>
-        </div>`;
-    });
-
-    if (!activeFound) {
-        let nextStart = new Date(); nextStart.setHours(7,15,0);
-        if (totalMin >= (15*60+11) || isWeekend) {
-            if(day === "Friday") nextStart.setDate(now.getDate()+3);
-            else if(day === "Saturday") nextStart.setDate(now.getDate()+2);
-            else nextStart.setDate(now.getDate()+1);
-        }
-        const diff = nextStart - now;
-        const h = Math.floor(diff/3600000);
-        const m = Math.floor((diff%3600000)/60000);
-        const s = Math.floor((diff%60000)/1000);
-        document.getElementById('active-p-title').innerText = d.nextSchool;
-        document.getElementById('live-counter').innerText = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-        document.getElementById('fill-bar').style.width = "0%";
-    }
-    document.getElementById('schedule-list').innerHTML = html;
-}
-
-function nextBtnColor() { document.body.classList.remove(...btnColors); btnColorIdx = (btnColorIdx + 1) % btnColors.length; document.body.classList.add(btnColors[btnColorIdx]); }
-function nextFullTheme() { document.body.classList.remove(...fullThemes); fullThemeIdx = (fullThemeIdx + 1) % fullThemes.length; document.body.classList.add(fullThemes[fullThemeIdx]); }
-function toggleNightMode() { document.body.classList.toggle('light-mode'); }
-function scorePoint() { score++; document.getElementById('score-val').innerText = dictionary[currentLang].score + score; }
 
 setInterval(update, 1000);
 update();
